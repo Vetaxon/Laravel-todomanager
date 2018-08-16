@@ -3,7 +3,7 @@ require("./bootstrap");
 window.Vue = require("vue");
 import VueRouter from "vue-router";
 import BootstrapVue from "bootstrap-vue";
-import store from "./store";
+import {store} from "./store";
 
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
@@ -44,7 +44,6 @@ const router = new VueRouter({
     ]
 });
 
-//
 router.beforeEach((to, from, next) => {
     if (to.meta.requiredAuth) {
         if (window.localStorage.getItem("access_token")) {
@@ -66,7 +65,11 @@ router.beforeEach((to, from, next) => {
                     return response.json();
                 })
                 .then(data => {
-                    if (data) next();
+                    if (data) {
+                        let user = {'name': data.name, 'email':data.email}
+                        store.dispatch("setUserObject", user);
+                        next()
+                    };
                 });
         } else {
             next({ name: "login" });
@@ -79,5 +82,6 @@ router.beforeEach((to, from, next) => {
 const app = new Vue({
     el: "#app",
     components: { App },
-    router: router
+    router: router,
+    store
 });

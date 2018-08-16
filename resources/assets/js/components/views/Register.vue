@@ -34,7 +34,7 @@
                                     <span v-if="errors.password_confirmation" style="color:red; font-size:small">{{ errors.password_confirmation.join() }}</span>
                                 </b-form-group>
 
-                                <b-button @click="onSubmit" variant="primary">Login</b-button>
+                                <b-button @click="onSubmit" variant="primary">Register and login</b-button>
                                 <b-button type="reset" @click="onReset" variant="danger">Reset</b-button>
                                 <b-button class="pull-right" type="success" variant="success" :to="{ name: 'login' }">
                                     Login
@@ -98,6 +98,7 @@ export default {
       this.errors = [];
     }
   }
+
 };
 </script>
 

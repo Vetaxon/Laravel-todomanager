@@ -69,9 +69,7 @@ export default {
         .then(response => {
           if (response.status === 200) {
             if (response.data.errors) {
-              // console.log(response.data)
               this.errors = response.data.errors;
-              console.log(this.errors);
             }
             if (response.data.success) {
               window.localStorage.setItem(

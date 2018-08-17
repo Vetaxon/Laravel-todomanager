@@ -18,7 +18,9 @@ class UsersTableSeeder extends Seeder
             'email' => 'vitalii.ivanov1983@gmail.com',
             'password' => Hash::make('111111')
         ];
-        
+
         User::create($main_user);
+
+        factory(\App\User::class,3)->create();
     }
 }

@@ -9,8 +9,12 @@
     <b-collapse is-nav id="nav_collapse">
 
       <b-navbar-nav>
-        <b-nav-item href="#">Link</b-nav-item>
-        <b-nav-item href="#" disabled>Disabled</b-nav-item>
+        <b-nav-item @click="getTasks">getTasks</b-nav-item>
+        <b-nav-item @click="getTask(1)">getTask</b-nav-item>
+        <b-nav-item @click="deleteTask(9)">deleteTask</b-nav-item>
+        <b-nav-item @click="updateTask(10)">updateTask</b-nav-item>
+        <b-nav-item @click="addTask">addTask</b-nav-item>
+
       </b-navbar-nav>
 
       <!-- Right aligned nav items -->
@@ -44,7 +48,8 @@
 
 <script>
 import { mapState } from "vuex";
-import { getUserUrl } from "../../config";
+import { getTasksUrl } from "../../config";
+import { getToken } from "../../config";
 
 export default {
   data() {
@@ -53,26 +58,90 @@ export default {
     };
   },
 
-  methods:{
-      onSignout(){
-          console.log('singout')
-          window.localStorage.removeItem("access_token")
-          let user = {'name': '', 'email':''}
-          this.$store.dispatch("setUserObject", user);
-          this.$router.push({ path: "/" });
-      }
+  methods: {
+    onSignout() {
+      window.localStorage.removeItem("access_token");
+      let user = { name: "", email: "" };
+      this.$store.dispatch("setUserObject", user);
+      this.$router.push({ path: "/" });
+    },
+
+    getTasks() {
+
+      axios
+        .get(getTasksUrl, {
+          headers: { Authorization: getToken() }
+        })
+        .then(response => {
+          console.log(response);
+        });
+    },
+
+    getTask(id) {
+
+      axios
+        .get(getTasksUrl + "/" + id, {
+          headers: { Authorization: getToken() }
+        })
+        .then(response => {
+          console.log(response);
+        });
+    },
+
+    deleteTask(id) {
+
+      axios
+        .delete(getTasksUrl + "/" + id, {
+          headers: { Authorization: getToken() }
+        })
+        .then(response => {
+          console.log(response);
+        });
+    },
+
+    addTask(){
+
+        console.log(getToken())
+
+        const postData = JSON.stringify({
+        task: 'loredkdddddddospp ssllsl soosll spppssssssslll ss sooooooooossll slllllllss spppppsll sppppppssl ssssssssssssssss',
+        urgency: 1,
+        importance: 1
+      });
+
+      axios
+        .post(getTasksUrl, postData, {
+          headers: { "Content-Type":"application/json", Authorization: getToken() }
+        }).then(response => {
+            console.log(response)
+        })
+    },
+    updateTask(id){
+        this.getTask(id)
+        const postData = JSON.stringify({
+        task: 'updated loredkdddddddospp  ss sooooooooossll slllllllss spppppsll sppppppssl ssssssssssssssss',
+        urgency: 1,
+        importance: 1
+      });
+
+      axios
+        .put(getTasksUrl + "/" + id, postData, {
+          headers: { "Content-Type":"application/json", Authorization: getToken() }
+        }).then(response => {
+            if(response.data.success === true)
+                this.getTask(id)
+        })
+    }
   },
 
   computed: {
     localComputed() {
-        this.user = authUser
+      this.user = authUser;
     },
 
     ...mapState({
       authUser: state => state.authUser
-
     })
-  },
-
+  }
 };
 </script>

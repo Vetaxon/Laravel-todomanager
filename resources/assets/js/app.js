@@ -3,7 +3,7 @@ require("./bootstrap");
 window.Vue = require("vue");
 import VueRouter from "vue-router";
 import BootstrapVue from "bootstrap-vue";
-import {store} from "./store";
+import { store } from "./store";
 
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
@@ -11,10 +11,13 @@ import "bootstrap-vue/dist/bootstrap-vue.css";
 Vue.use(BootstrapVue);
 Vue.use(VueRouter);
 
+import {getUserUrl} from './config';
+
 import App from "./components/views/App";
-import Navbar from "./components/views/Navbar";
 import Login from "./components/views/Login";
 import Register from "./components/views/Register";
+import Dashboard from "./components/views/Dashboard";
+import Profile from "./components/views/Profile.vue";
 
 const router = new VueRouter({
     mode: "history",
@@ -30,15 +33,15 @@ const router = new VueRouter({
             component: Register
         },
         {
-            path: "/dashboard",
-            name: "dashboard",
-            component: Navbar,
+            path: "/profile",
+            name: "profile",
+            component: Profile,
             meta: { requiredAuth: true }
         },
         {
             path: "/",
             name: "dashboard",
-            component: Navbar,
+            component: Dashboard,
             meta: { requiredAuth: true }
         }
     ]
@@ -51,7 +54,7 @@ router.beforeEach((to, from, next) => {
                 window.localStorage.getItem("access_token")
             );
 
-            fetch("http://localhost:8000/api/user", {
+            fetch(getUserUrl, {
                 method: "GET",
                 headers: { Authorization: "Bearer " + authUserToken }
             })
@@ -66,10 +69,10 @@ router.beforeEach((to, from, next) => {
                 })
                 .then(data => {
                     if (data) {
-                        let user = {'name': data.name, 'email':data.email}
+                        let user = { name: data.name, email: data.email };
                         store.dispatch("setUserObject", user);
-                        next()
-                    };
+                        next();
+                    }
                 });
         } else {
             next({ name: "login" });

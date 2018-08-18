@@ -1,6 +1,6 @@
 <template>
 <div>
-  <b-navbar toggleable="md" type="dark" variant="info">
+  <b-navbar toggleable="md" type="dark" variant="info" style="background-color:indigo !important">
 
     <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
 
@@ -36,7 +36,7 @@
           <template slot="button-content">
             <em>{{authUser.name}}</em>
           </template>
-          <b-dropdown-item href="#">Profile</b-dropdown-item>
+          <b-dropdown-item :to="{ name: 'profile' }">Profile</b-dropdown-item>
           <b-dropdown-item @click="onSignout">Signout</b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
@@ -63,11 +63,10 @@ export default {
       window.localStorage.removeItem("access_token");
       let user = { name: "", email: "" };
       this.$store.dispatch("setUserObject", user);
-      this.$router.push({ path: "/" });
+      this.$router.push({ path: "/login" });
     },
 
     getTasks() {
-
       axios
         .get(getTasksUrl, {
           headers: { Authorization: getToken() }
@@ -78,7 +77,6 @@ export default {
     },
 
     getTask(id) {
-
       axios
         .get(getTasksUrl + "/" + id, {
           headers: { Authorization: getToken() }
@@ -89,7 +87,6 @@ export default {
     },
 
     deleteTask(id) {
-
       axios
         .delete(getTasksUrl + "/" + id, {
           headers: { Authorization: getToken() }
@@ -99,46 +96,50 @@ export default {
         });
     },
 
-    addTask(){
+    addTask() {
+      console.log(getToken());
 
-        console.log(getToken())
-
-        const postData = JSON.stringify({
-        task: 'loredkdddddddospp ssllsl soosll spppssssssslll ss sooooooooossll slllllllss spppppsll sppppppssl ssssssssssssssss',
+      const postData = JSON.stringify({
+        task:
+          "loredkdddddddospp ssllsl soosll spppssssssslll ss sooooooooossll slllllllss spppppsll sppppppssl ssssssssssssssss",
         urgency: 1,
         importance: 1
       });
 
       axios
         .post(getTasksUrl, postData, {
-          headers: { "Content-Type":"application/json", Authorization: getToken() }
-        }).then(response => {
-            console.log(response)
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: getToken()
+          }
         })
+        .then(response => {
+          console.log(response);
+        });
     },
-    updateTask(id){
-        this.getTask(id)
-        const postData = JSON.stringify({
-        task: 'updated loredkdddddddospp  ss sooooooooossll slllllllss spppppsll sppppppssl ssssssssssssssss',
+    updateTask(id) {
+      this.getTask(id);
+      const postData = JSON.stringify({
+        task:
+          "updated loredkdddddddospp  ss sooooooooossll slllllllss spppppsll sppppppssl ssssssssssssssss",
         urgency: 1,
         importance: 1
       });
 
       axios
         .put(getTasksUrl + "/" + id, postData, {
-          headers: { "Content-Type":"application/json", Authorization: getToken() }
-        }).then(response => {
-            if(response.data.success === true)
-                this.getTask(id)
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: getToken()
+          }
         })
+        .then(response => {
+          if (response.data.success === true) this.getTask(id);
+        });
     }
   },
 
   computed: {
-    localComputed() {
-      this.user = authUser;
-    },
-
     ...mapState({
       authUser: state => state.authUser
     })

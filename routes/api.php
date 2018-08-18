@@ -14,15 +14,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/sort', 'API\TaskController@sort');
+
 Route::post('/register', 'API\UserController@register');
 Route::post('/login', 'API\UserController@login');
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::get('/user', function (Request $request) {
     return $request->user();
-});
+})->middleware('auth:api');
+
+Route::put('/user/update', 'API\UserController@update')->middleware('auth:api');
 
 Route::get('/tasks', 'API\TaskController@index')->middleware('auth:api');
-Route::get('/tasks/{id}', 'API\TaskController@show')->middleware(['auth:api', 'checkExistsTask'])->where('id', '[0-9]+');
+Route::get('/tasks/{id}', 'API\TaskController@show')->middleware('auth:api')->where('id', '[0-9]+');
 Route::post('/tasks', 'API\TaskController@store')->middleware('auth:api');
 Route::delete('/tasks/{id}', 'API\TaskController@destroy')->middleware('auth:api')->where('id', '[0-9]+');
 Route::put('/tasks/{id}', 'API\TaskController@update')->middleware('auth:api')->where('id', '[0-9]+');

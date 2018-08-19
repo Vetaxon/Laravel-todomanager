@@ -24,14 +24,16 @@ class TaskController extends Controller
 
     public function store(Request $request)
     {
+        $input = $this->prepareInput($request->all());
 
-        if (array_key_exists('errors', $this->prepareInput($request->all())))
-            return response()->json($this->prepareInput($request->all()));
+        if (array_key_exists('errors', $input))
+            return response()->json($input);
 
-        $task = User::findOrFail(Auth::id())->tasks()->create($this->prepareInput($request->all()));
+        $input['status'] = 'on';
 
-        return response()->json(['success' => $task]);
+        User::findOrFail(Auth::id())->tasks()->create($input);
 
+        return $this->index();
     }
 
     public function show($id)
@@ -41,13 +43,46 @@ class TaskController extends Controller
 
     public function update(Request $request, $id)
     {
-        if (array_key_exists('errors', $this->prepareInput($request->all())))
-            return response()->json($this->prepareInput($request->all()));
+        if (array_key_exists('status', $request->all()) && count($request->all()) == 1)
+            return $this->updateStatus($request->all(), $id);
 
-        $task = User::findOrFail(Auth::id())->tasks()->findOrFail($id)->update($this->prepareInput($request->all()));
+        if (array_key_exists('urgency', $request->all())
+            && array_key_exists('importance', $request->all())
+            && count($request->all()) == 2
+        ){
+            return $this->updateTaskValue($request->all(), $id);
+        }
+    }
 
-        return response()->json(['success' => $task]);
+    protected function updateStatus($request, $id)
+    {
+        $validator = Validator::make($request, [
+            'status' => 'required|max:4|min:2',
+        ]);
 
+        if ($validator->fails())
+            return response()->json(['errors' => $validator->errors()]);
+
+        $task = User::findOrFail(Auth::id())->tasks()->findOrFail($id)->update($request);
+
+        if ($task)
+            return $this->index();
+    }
+
+    protected function updateTaskValue($request, $id)
+    {
+        $validator = Validator::make($request, [
+            'importance' => 'required|integer|max:1',
+            'urgency' => 'required|integer|max:1',
+        ]);
+
+        if ($validator->fails())
+            return response()->json(['errors' => $validator->errors()]);
+
+        $task = User::findOrFail(Auth::id())->tasks()->findOrFail($id)->update($request);
+
+        if ($task)
+            return $this->index();
     }
 
 
@@ -61,7 +96,7 @@ class TaskController extends Controller
     protected function prepareInput($input)
     {
         $validator = Validator::make($input, [
-            'task' => 'required|string|max:700|min:3',
+            'task' => 'required|string|max:2000|min:3',
             'importance' => 'required|integer|max:1',
             'urgency' => 'required|integer|max:1'
         ]);
@@ -69,8 +104,7 @@ class TaskController extends Controller
         if ($validator->fails())
             return ['errors' => $validator->errors()];
 
-        $input['title'] = substr($input['task'], 0, 40) . "...";
-        $input['status'] = 'on';
+        $input['title'] = substr($input['task'], 0, 25) . "...";
 
         return $input;
     }

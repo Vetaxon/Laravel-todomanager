@@ -13,3 +13,61 @@ export const getToken = function () {
 
     return bearer
 }
+
+export const userDefault = { name: "", email: "" };
+
+export const tasksDefault = {
+    delegate: [
+        {
+            created_at: "",
+            id: "",
+            importance: "",
+            status: "",
+            task: "",
+            title: "",
+            updated_at: "",
+            urgency: "",
+            user_id: ""
+        }
+    ],
+    doit: [
+        {
+            created_at: "",
+            id: "",
+            importance: "",
+            status: "",
+            task: "",
+            title: "",
+            updated_at: "",
+            urgency: "",
+            user_id: ""
+        }
+    ],
+    drop: [
+        {
+            created_at: "",
+            id: "",
+            importance: "",
+            status: "",
+            task: "",
+            title: "",
+            updated_at: "",
+            urgency: "",
+            user_id: ""
+        }
+    ],
+    schedule: [
+        {
+            created_at: "",
+            id: "",
+            importance: "",
+            status: "",
+            task: "",
+            title: "",
+            updated_at: "",
+            urgency: "",
+            user_id: ""
+        }
+    ]
+};
+

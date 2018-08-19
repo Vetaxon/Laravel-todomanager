@@ -1262,10 +1262,12 @@ function clickHandlerFactory(_ref3) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return getUserUrl; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getRegisterUrl; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return getTasksUrl; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return updateUser; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return updateUser; });
 /* unused harmony export client_id */
 /* unused harmony export client_secret */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return getToken; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return userDefault; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return tasksDefault; });
 var apiDomain = 'http://localhost:8000';
 var loginUrl = apiDomain + '/api/login';
 var getUserUrl = apiDomain + '/api/user';
@@ -1280,6 +1282,55 @@ var getToken = function getToken() {
     var bearer = "Bearer " + access_token;
 
     return bearer;
+};
+
+var userDefault = { name: "", email: "" };
+
+var tasksDefault = {
+    delegate: [{
+        created_at: "",
+        id: "",
+        importance: "",
+        status: "",
+        task: "",
+        title: "",
+        updated_at: "",
+        urgency: "",
+        user_id: ""
+    }],
+    doit: [{
+        created_at: "",
+        id: "",
+        importance: "",
+        status: "",
+        task: "",
+        title: "",
+        updated_at: "",
+        urgency: "",
+        user_id: ""
+    }],
+    drop: [{
+        created_at: "",
+        id: "",
+        importance: "",
+        status: "",
+        task: "",
+        title: "",
+        updated_at: "",
+        urgency: "",
+        user_id: ""
+    }],
+    schedule: [{
+        created_at: "",
+        id: "",
+        importance: "",
+        status: "",
+        task: "",
+        title: "",
+        updated_at: "",
+        urgency: "",
+        user_id: ""
+    }]
 };
 
 /***/ }),
@@ -68097,21 +68148,30 @@ function removeBVPO(el) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(45);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(76);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__config__ = __webpack_require__(9);
+
+
 
 
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */]);
 
 var store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
-
-    strict: "development" !== 'production',
+    strict: "development" !== "production",
 
     state: {
-        authUser: { 'name': '', 'email': '' }
+        authUser: { userDefault: __WEBPACK_IMPORTED_MODULE_2__config__["h" /* userDefault */] },
+        tasks: {
+            done: { tasksDefault: __WEBPACK_IMPORTED_MODULE_2__config__["f" /* tasksDefault */] },
+            on: { tasksDefault: __WEBPACK_IMPORTED_MODULE_2__config__["f" /* tasksDefault */] }
+        }
     },
     mutations: {
         SET_AUTH_USER: function SET_AUTH_USER(state, userObj) {
             state.authUser = userObj;
+        },
+        SET_TASKS: function SET_TASKS(state, taskObj) {
+            state.tasks = taskObj;
         }
     },
     actions: {
@@ -68119,11 +68179,19 @@ var store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
             var commit = _ref.commit;
 
             commit("SET_AUTH_USER", userObj);
+        },
+        setTasksObject: function setTasksObject(_ref2, tasksObj) {
+            var commit = _ref2.commit;
+
+            commit("SET_TASKS", tasksObj);
         }
     },
     getters: {
         getUser: function getUser(state) {
             return state.authUser;
+        },
+        getTasks: function getTasks(state) {
+            return state.tasks;
         }
     }
 });
@@ -69023,17 +69091,21 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(244)
+}
 var normalizeComponent = __webpack_require__(19)
 /* script */
 var __vue_script__ = __webpack_require__(235)
 /* template */
-var __vue_template__ = __webpack_require__(238)
+var __vue_template__ = __webpack_require__(248)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
-var __vue_styles__ = null
+var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = null
+var __vue_scopeId__ = "data-v-6d0239cc"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -69073,7 +69145,12 @@ module.exports = Component.exports
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Navbar__ = __webpack_require__(77);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Navbar___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Navbar__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__config__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AddTask__ = __webpack_require__(249);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AddTask___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__AddTask__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__config__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vuex__ = __webpack_require__(76);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 //
 //
 //
@@ -69136,6 +69213,45 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
 
 
 
@@ -69144,14 +69260,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      tasks_on: [],
-      tasks_done: [],
-      visible: false
+      visible: false,
+      postData: {}
     };
   },
 
   components: {
-    Navbar: __WEBPACK_IMPORTED_MODULE_0__Navbar___default.a
+    Navbar: __WEBPACK_IMPORTED_MODULE_0__Navbar___default.a,
+    Addtask: __WEBPACK_IMPORTED_MODULE_1__AddTask___default.a
   },
   created: function created() {
     this.getTasks();
@@ -69161,23 +69277,98 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     getTasks: function getTasks() {
       var _this = this;
 
-      axios.get(__WEBPACK_IMPORTED_MODULE_1__config__["b" /* getTasksUrl */], {
-        headers: { Authorization: Object(__WEBPACK_IMPORTED_MODULE_1__config__["c" /* getToken */])() }
+      axios.get(__WEBPACK_IMPORTED_MODULE_2__config__["b" /* getTasksUrl */], {
+        headers: { Authorization: Object(__WEBPACK_IMPORTED_MODULE_2__config__["c" /* getToken */])() }
       }).then(function (response) {
         if (response.status === 200 && response.data.success) {
-          _this.tasks_on = response.data.success.on;
-          _this.tasks_done = response.data.success.done;
-          console.log(_this.tasks_on);
-          console.log(_this.tasks_done);
+          _this.$store.dispatch("setTasksObject", response.data.success);
         }
       });
     },
-    visibleOn: function visibleOn() {
-      console.log(this.visible);
-      this.visible = true;
+    onVisible: function onVisible() {
+      this.visible = !this.visible;
+    },
+    doneTask: function doneTask(id) {
+      var _this2 = this;
+
+      var postData = JSON.stringify({
+        status: "done"
+      });
+
+      axios.put(__WEBPACK_IMPORTED_MODULE_2__config__["b" /* getTasksUrl */] + "/" + id, postData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: Object(__WEBPACK_IMPORTED_MODULE_2__config__["c" /* getToken */])()
+        }
+      }).then(function (response) {
+        if (response.status === 200 && response.data) {
+          if (response.data.errors) {
+            console.log(response.data);
+          }
+          if (response.data.success) {
+            _this2.$store.dispatch("setTasksObject", response.data.success);
+          }
+        }
+      });
+    },
+    editTask: function editTask(id, category) {
+      var _this3 = this;
+
+      var postData = this.definePostData(category);
+      console.log(postData);
+
+      axios.put(__WEBPACK_IMPORTED_MODULE_2__config__["b" /* getTasksUrl */] + "/" + id, postData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: Object(__WEBPACK_IMPORTED_MODULE_2__config__["c" /* getToken */])()
+        }
+      }).then(function (response) {
+        if (response.status === 200 && response.data) {
+          if (response.data.errors) {
+            console.log(response.data);
+          }
+          if (response.data.success) {
+            console.log(response.data.success);
+            _this3.$store.dispatch("setTasksObject", response.data.success);
+          }
+        }
+      });
+    },
+    definePostData: function definePostData(category) {
+      if (category === "doit") {
+        return JSON.stringify({
+          urgency: 1,
+          importance: 1
+        });
+      }
+
+      if (category === "delegate") {
+        return JSON.stringify({
+          urgency: 1,
+          importance: 0
+        });
+      }
+
+      if (category === "schedule") {
+        return JSON.stringify({
+          urgency: 0,
+          importance: 1
+        });
+      }
+
+      if (category === "drop") {
+        return JSON.stringify({
+          urgency: 0,
+          importance: 0
+        });
+      }
     }
   },
-  computed: {}
+  computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_3_vuex__["b" /* mapState */])({
+    tasks_on: function tasks_on(state) {
+      return state.tasks.on;
+    }
+  }))
 });
 
 /***/ }),
@@ -69233,11 +69424,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
-//
-//
-//
-//
-//
+
+
 
 
 
@@ -69255,66 +69443,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     onSignout: function onSignout() {
       window.localStorage.removeItem("access_token");
       var user = { name: "", email: "" };
-      this.$store.dispatch("setUserObject", user);
+      this.$store.dispatch("setUserObject", __WEBPACK_IMPORTED_MODULE_1__config__["h" /* userDefault */]);
+      this.$store.dispatch("setTasksObject", __WEBPACK_IMPORTED_MODULE_1__config__["f" /* tasksDefault */]);
       this.$router.push({ path: "/login" });
-    },
-    getTasks: function getTasks() {
-      axios.get(__WEBPACK_IMPORTED_MODULE_1__config__["b" /* getTasksUrl */], {
-        headers: { Authorization: Object(__WEBPACK_IMPORTED_MODULE_1__config__["c" /* getToken */])() }
-      }).then(function (response) {
-        console.log(response);
-      });
-    },
-    getTask: function getTask(id) {
-      axios.get(__WEBPACK_IMPORTED_MODULE_1__config__["b" /* getTasksUrl */] + "/" + id, {
-        headers: { Authorization: Object(__WEBPACK_IMPORTED_MODULE_1__config__["c" /* getToken */])() }
-      }).then(function (response) {
-        console.log(response);
-      });
-    },
-    deleteTask: function deleteTask(id) {
-      axios.delete(__WEBPACK_IMPORTED_MODULE_1__config__["b" /* getTasksUrl */] + "/" + id, {
-        headers: { Authorization: Object(__WEBPACK_IMPORTED_MODULE_1__config__["c" /* getToken */])() }
-      }).then(function (response) {
-        console.log(response);
-      });
-    },
-    addTask: function addTask() {
-      console.log(Object(__WEBPACK_IMPORTED_MODULE_1__config__["c" /* getToken */])());
-
-      var postData = JSON.stringify({
-        task: "loredkdddddddospp ssllsl soosll spppssssssslll ss sooooooooossll slllllllss spppppsll sppppppssl ssssssssssssssss",
-        urgency: 1,
-        importance: 1
-      });
-
-      axios.post(__WEBPACK_IMPORTED_MODULE_1__config__["b" /* getTasksUrl */], postData, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: Object(__WEBPACK_IMPORTED_MODULE_1__config__["c" /* getToken */])()
-        }
-      }).then(function (response) {
-        console.log(response);
-      });
-    },
-    updateTask: function updateTask(id) {
-      var _this = this;
-
-      this.getTask(id);
-      var postData = JSON.stringify({
-        task: "updated loredkdddddddospp  ss sooooooooossll slllllllss spppppsll sppppppssl ssssssssssssssss",
-        urgency: 1,
-        importance: 1
-      });
-
-      axios.put(__WEBPACK_IMPORTED_MODULE_1__config__["b" /* getTasksUrl */] + "/" + id, postData, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: Object(__WEBPACK_IMPORTED_MODULE_1__config__["c" /* getToken */])()
-        }
-      }).then(function (response) {
-        if (response.data.success === true) _this.getTask(id);
-      });
     }
   },
 
@@ -69353,55 +69484,7 @@ var render = function() {
             "b-collapse",
             { attrs: { "is-nav": "", id: "nav_collapse" } },
             [
-              _c(
-                "b-navbar-nav",
-                [
-                  _c("b-nav-item", { on: { click: _vm.getTasks } }, [
-                    _vm._v("getTasks")
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "b-nav-item",
-                    {
-                      on: {
-                        click: function($event) {
-                          _vm.getTask(1)
-                        }
-                      }
-                    },
-                    [_vm._v("getTask")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "b-nav-item",
-                    {
-                      on: {
-                        click: function($event) {
-                          _vm.deleteTask(9)
-                        }
-                      }
-                    },
-                    [_vm._v("deleteTask")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "b-nav-item",
-                    {
-                      on: {
-                        click: function($event) {
-                          _vm.updateTask(10)
-                        }
-                      }
-                    },
-                    [_vm._v("updateTask")]
-                  ),
-                  _vm._v(" "),
-                  _c("b-nav-item", { on: { click: _vm.addTask } }, [
-                    _vm._v("addTask")
-                  ])
-                ],
-                1
-              ),
+              _c("b-navbar-nav"),
               _vm._v(" "),
               _c(
                 "b-navbar-nav",
@@ -69451,157 +69534,7 @@ if (false) {
 }
 
 /***/ }),
-/* 238 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c("navbar"),
-      _vm._v(" "),
-      _c("div", { staticClass: "container-fluid mt-5" }, [
-        _c("div", { staticClass: "row justify-content-center" }, [
-          _c("div", { staticClass: "col-md-6 mt-3" }, [
-            _c(
-              "div",
-              { staticClass: "card card-default " },
-              [
-                _c("div", { staticClass: "card-header" }, [_vm._v("DO")]),
-                _vm._v(" "),
-                _vm._l(_vm.tasks_on.doit, function(task_on) {
-                  return _c(
-                    "div",
-                    { key: task_on.id },
-                    [
-                      _c(
-                        "b-card",
-                        { staticClass: "mb-1", attrs: { "no-body": "" } },
-                        [
-                          _c(
-                            "b-card-header",
-                            {
-                              staticClass: "p-1",
-                              attrs: { "header-tag": "header", role: "tab" }
-                            },
-                            [
-                              _c(
-                                "b-btn",
-                                {
-                                  directives: [
-                                    {
-                                      name: "b-toggle",
-                                      rawName: "v-b-toggle.accordion1",
-                                      modifiers: { accordion1: true }
-                                    }
-                                  ],
-                                  attrs: { block: "", variant: "info" },
-                                  on: { click: _vm.visibleOn }
-                                },
-                                [_vm._v(_vm._s(task_on.title))]
-                              )
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          task_on.task
-                            ? _c(
-                                "b-collapse",
-                                {
-                                  attrs: {
-                                    id: "accordion1",
-                                    accordion: "my-accordion",
-                                    role: "tabpanel"
-                                  }
-                                },
-                                [
-                                  _c("b-card-body", [
-                                    _c("p", { staticClass: "card-text" }, [
-                                      _vm._v(
-                                        "\n                                            " +
-                                          _vm._s(task_on.task) +
-                                          "\n                                        "
-                                      )
-                                    ])
-                                  ])
-                                ],
-                                1
-                              )
-                            : _vm._e()
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                })
-              ],
-              2
-            )
-          ]),
-          _vm._v(" "),
-          _vm._m(0),
-          _vm._v(" "),
-          _vm._m(1),
-          _vm._v(" "),
-          _vm._m(2)
-        ])
-      ])
-    ],
-    1
-  )
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-6 mt-3" }, [
-      _c("div", { staticClass: "card card-default " }, [
-        _c("div", { staticClass: "card-header" }, [_vm._v("DELEGATE")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "card-body" })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-6 mt-3" }, [
-      _c("div", { staticClass: "card card-default " }, [
-        _c("div", { staticClass: "card-header" }, [_vm._v("SCHEDULE")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "card-body" })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-6 mt-3" }, [
-      _c("div", { staticClass: "card card-default " }, [
-        _c("div", { staticClass: "card-header" }, [_vm._v("DROP")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "card-body" })
-      ])
-    ])
-  }
-]
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-6d0239cc", module.exports)
-  }
-}
-
-/***/ }),
+/* 238 */,
 /* 239 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -69811,7 +69744,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         name: this.user.name
       });
 
-      axios.put(__WEBPACK_IMPORTED_MODULE_2__config__["f" /* updateUser */], postData, {
+      axios.put(__WEBPACK_IMPORTED_MODULE_2__config__["g" /* updateUser */], postData, {
         headers: {
           "Content-Type": "application/json",
           Authorization: Object(__WEBPACK_IMPORTED_MODULE_2__config__["c" /* getToken */])()
@@ -69839,7 +69772,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         email: this.user.email
       });
 
-      axios.put(__WEBPACK_IMPORTED_MODULE_2__config__["f" /* updateUser */], postData, {
+      axios.put(__WEBPACK_IMPORTED_MODULE_2__config__["g" /* updateUser */], postData, {
         headers: {
           "Content-Type": "application/json",
           Authorization: Object(__WEBPACK_IMPORTED_MODULE_2__config__["c" /* getToken */])()
@@ -69870,7 +69803,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         password_confirmation: this.form.password_confirmation
       });
 
-      axios.put(__WEBPACK_IMPORTED_MODULE_2__config__["f" /* updateUser */], postData, {
+      axios.put(__WEBPACK_IMPORTED_MODULE_2__config__["g" /* updateUser */], postData, {
         headers: {
           "Content-Type": "application/json",
           Authorization: Object(__WEBPACK_IMPORTED_MODULE_2__config__["c" /* getToken */])()
@@ -70300,6 +70233,1348 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 243 */,
+/* 244 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(245);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(246)("1605fd66", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6d0239cc\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Dashboard.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6d0239cc\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Dashboard.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 245 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(15)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.bold[data-v-6d0239cc] {\n  font-weight: 1000;\n}\n.btnDOIT[data-v-6d0239cc] {\n  background-color: #663399;\n  border-color: #663399;\n  -webkit-box-shadow: 0 0 0 0.2rem rgba(223, 211, 235, 0.527);\n          box-shadow: 0 0 0 0.2rem rgba(223, 211, 235, 0.527);\n}\n.btn-success[data-v-6d0239cc] {\n  margin-bottom: 10px;\n}\n.btnSCHEDULE[data-v-6d0239cc] {\n  background-color: #9acd32;\n  border-color: #9acd32;\n  -webkit-box-shadow: 0 0 0 0.2rem #c5e776;\n          box-shadow: 0 0 0 0.2rem #c5e776;\n}\n.btnDELEGATE[data-v-6d0239cc] {\n  background-color: #2e8b57;\n  border-color: #2e8b57;\n  -webkit-box-shadow: 0 0 0 0.2rem rgba(103, 155, 135, 0.527);\n          box-shadow: 0 0 0 0.2rem rgba(103, 155, 135, 0.527);\n}\n.btnDROP[data-v-6d0239cc] {\n  background-color: LightYellow;\n  border-color: LightYellow;\n  color: #2e8b57;\n  -webkit-box-shadow: 0 0 0 0.2rem rgba(191, 238, 232, 0.527);\n          box-shadow: 0 0 0 0.2rem rgba(191, 238, 232, 0.527);\n}\n.card-body[data-v-6d0239cc] {\n  padding: 5px;\n  margin-top: 0px;\n  margin-bottom: 0px;\n}\n.card-title[data-v-6d0239cc] {\n  margin: 3px;\n  margin-top: 10px;\n  color: #2f4f4f;\n  margin-left: 30px;\n}\n.card-text[data-v-6d0239cc]:last-child {\n  margin: 3px;\n  color: #2f4f4f;\n}\n.card[data-v-6d0239cc] {\n  margin-bottom: 40px;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 246 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/*
+  MIT License http://www.opensource.org/licenses/mit-license.php
+  Author Tobias Koppers @sokra
+  Modified by Evan You @yyx990803
+*/
+
+var hasDocument = typeof document !== 'undefined'
+
+if (typeof DEBUG !== 'undefined' && DEBUG) {
+  if (!hasDocument) {
+    throw new Error(
+    'vue-style-loader cannot be used in a non-browser environment. ' +
+    "Use { target: 'node' } in your Webpack config to indicate a server-rendering environment."
+  ) }
+}
+
+var listToStyles = __webpack_require__(247)
+
+/*
+type StyleObject = {
+  id: number;
+  parts: Array<StyleObjectPart>
+}
+
+type StyleObjectPart = {
+  css: string;
+  media: string;
+  sourceMap: ?string
+}
+*/
+
+var stylesInDom = {/*
+  [id: number]: {
+    id: number,
+    refs: number,
+    parts: Array<(obj?: StyleObjectPart) => void>
+  }
+*/}
+
+var head = hasDocument && (document.head || document.getElementsByTagName('head')[0])
+var singletonElement = null
+var singletonCounter = 0
+var isProduction = false
+var noop = function () {}
+var options = null
+var ssrIdKey = 'data-vue-ssr-id'
+
+// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+// tags it will allow on a page
+var isOldIE = typeof navigator !== 'undefined' && /msie [6-9]\b/.test(navigator.userAgent.toLowerCase())
+
+module.exports = function (parentId, list, _isProduction, _options) {
+  isProduction = _isProduction
+
+  options = _options || {}
+
+  var styles = listToStyles(parentId, list)
+  addStylesToDom(styles)
+
+  return function update (newList) {
+    var mayRemove = []
+    for (var i = 0; i < styles.length; i++) {
+      var item = styles[i]
+      var domStyle = stylesInDom[item.id]
+      domStyle.refs--
+      mayRemove.push(domStyle)
+    }
+    if (newList) {
+      styles = listToStyles(parentId, newList)
+      addStylesToDom(styles)
+    } else {
+      styles = []
+    }
+    for (var i = 0; i < mayRemove.length; i++) {
+      var domStyle = mayRemove[i]
+      if (domStyle.refs === 0) {
+        for (var j = 0; j < domStyle.parts.length; j++) {
+          domStyle.parts[j]()
+        }
+        delete stylesInDom[domStyle.id]
+      }
+    }
+  }
+}
+
+function addStylesToDom (styles /* Array<StyleObject> */) {
+  for (var i = 0; i < styles.length; i++) {
+    var item = styles[i]
+    var domStyle = stylesInDom[item.id]
+    if (domStyle) {
+      domStyle.refs++
+      for (var j = 0; j < domStyle.parts.length; j++) {
+        domStyle.parts[j](item.parts[j])
+      }
+      for (; j < item.parts.length; j++) {
+        domStyle.parts.push(addStyle(item.parts[j]))
+      }
+      if (domStyle.parts.length > item.parts.length) {
+        domStyle.parts.length = item.parts.length
+      }
+    } else {
+      var parts = []
+      for (var j = 0; j < item.parts.length; j++) {
+        parts.push(addStyle(item.parts[j]))
+      }
+      stylesInDom[item.id] = { id: item.id, refs: 1, parts: parts }
+    }
+  }
+}
+
+function createStyleElement () {
+  var styleElement = document.createElement('style')
+  styleElement.type = 'text/css'
+  head.appendChild(styleElement)
+  return styleElement
+}
+
+function addStyle (obj /* StyleObjectPart */) {
+  var update, remove
+  var styleElement = document.querySelector('style[' + ssrIdKey + '~="' + obj.id + '"]')
+
+  if (styleElement) {
+    if (isProduction) {
+      // has SSR styles and in production mode.
+      // simply do nothing.
+      return noop
+    } else {
+      // has SSR styles but in dev mode.
+      // for some reason Chrome can't handle source map in server-rendered
+      // style tags - source maps in <style> only works if the style tag is
+      // created and inserted dynamically. So we remove the server rendered
+      // styles and inject new ones.
+      styleElement.parentNode.removeChild(styleElement)
+    }
+  }
+
+  if (isOldIE) {
+    // use singleton mode for IE9.
+    var styleIndex = singletonCounter++
+    styleElement = singletonElement || (singletonElement = createStyleElement())
+    update = applyToSingletonTag.bind(null, styleElement, styleIndex, false)
+    remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true)
+  } else {
+    // use multi-style-tag mode in all other cases
+    styleElement = createStyleElement()
+    update = applyToTag.bind(null, styleElement)
+    remove = function () {
+      styleElement.parentNode.removeChild(styleElement)
+    }
+  }
+
+  update(obj)
+
+  return function updateStyle (newObj /* StyleObjectPart */) {
+    if (newObj) {
+      if (newObj.css === obj.css &&
+          newObj.media === obj.media &&
+          newObj.sourceMap === obj.sourceMap) {
+        return
+      }
+      update(obj = newObj)
+    } else {
+      remove()
+    }
+  }
+}
+
+var replaceText = (function () {
+  var textStore = []
+
+  return function (index, replacement) {
+    textStore[index] = replacement
+    return textStore.filter(Boolean).join('\n')
+  }
+})()
+
+function applyToSingletonTag (styleElement, index, remove, obj) {
+  var css = remove ? '' : obj.css
+
+  if (styleElement.styleSheet) {
+    styleElement.styleSheet.cssText = replaceText(index, css)
+  } else {
+    var cssNode = document.createTextNode(css)
+    var childNodes = styleElement.childNodes
+    if (childNodes[index]) styleElement.removeChild(childNodes[index])
+    if (childNodes.length) {
+      styleElement.insertBefore(cssNode, childNodes[index])
+    } else {
+      styleElement.appendChild(cssNode)
+    }
+  }
+}
+
+function applyToTag (styleElement, obj) {
+  var css = obj.css
+  var media = obj.media
+  var sourceMap = obj.sourceMap
+
+  if (media) {
+    styleElement.setAttribute('media', media)
+  }
+  if (options.ssrId) {
+    styleElement.setAttribute(ssrIdKey, obj.id)
+  }
+
+  if (sourceMap) {
+    // https://developer.chrome.com/devtools/docs/javascript-debugging
+    // this makes source maps inside style tags work properly in Chrome
+    css += '\n/*# sourceURL=' + sourceMap.sources[0] + ' */'
+    // http://stackoverflow.com/a/26603875
+    css += '\n/*# sourceMappingURL=data:application/json;base64,' + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + ' */'
+  }
+
+  if (styleElement.styleSheet) {
+    styleElement.styleSheet.cssText = css
+  } else {
+    while (styleElement.firstChild) {
+      styleElement.removeChild(styleElement.firstChild)
+    }
+    styleElement.appendChild(document.createTextNode(css))
+  }
+}
+
+
+/***/ }),
+/* 247 */
+/***/ (function(module, exports) {
+
+/**
+ * Translates the list format produced by css-loader into something
+ * easier to manipulate.
+ */
+module.exports = function listToStyles (parentId, list) {
+  var styles = []
+  var newStyles = {}
+  for (var i = 0; i < list.length; i++) {
+    var item = list[i]
+    var id = item[0]
+    var css = item[1]
+    var media = item[2]
+    var sourceMap = item[3]
+    var part = {
+      id: parentId + ':' + i,
+      css: css,
+      media: media,
+      sourceMap: sourceMap
+    }
+    if (!newStyles[id]) {
+      styles.push(newStyles[id] = { id: id, parts: [part] })
+    } else {
+      newStyles[id].parts.push(part)
+    }
+  }
+  return styles
+}
+
+
+/***/ }),
+/* 248 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("navbar"),
+      _vm._v(" "),
+      _c("addtask"),
+      _vm._v(" "),
+      _c("div", { staticClass: "container-fluid mt-5" }, [
+        _c("div", { staticClass: "row justify-content-center" }, [
+          _c(
+            "div",
+            { staticClass: "col-md-8 mt-1" },
+            [
+              _c(
+                "b-card",
+                { attrs: { "no-body": "" } },
+                [
+                  _c(
+                    "b-card-header",
+                    {
+                      staticClass: "p-1",
+                      attrs: { "header-tag": "header", role: "tab" }
+                    },
+                    [
+                      _c(
+                        "b-btn",
+                        {
+                          directives: [
+                            {
+                              name: "b-toggle",
+                              rawName: "v-b-toggle.accordion1",
+                              modifiers: { accordion1: true }
+                            }
+                          ],
+                          staticClass: "btnDOIT bold",
+                          attrs: { block: "", variant: "info" }
+                        },
+                        [_vm._v("DO IT!")]
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "b-collapse",
+                    {
+                      attrs: {
+                        id: "accordion1",
+                        accordion: "my-accordion",
+                        role: "tabpanel"
+                      }
+                    },
+                    _vm._l(_vm.tasks_on.doit, function(task_on) {
+                      return _c(
+                        "b-card-body",
+                        { key: task_on.id },
+                        [
+                          _c(
+                            "b-card",
+                            {
+                              staticClass: "mb-2",
+                              attrs: { title: task_on.title }
+                            },
+                            [
+                              _c("p", { staticClass: "card-text" }, [
+                                _vm._v(" " + _vm._s(task_on.task))
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "b-container",
+                                { staticClass: "bv-example-row" },
+                                [
+                                  _c(
+                                    "b-row",
+                                    { staticClass: "text-center" },
+                                    [
+                                      _c(
+                                        "b-col",
+                                        [
+                                          _c(
+                                            "b-button",
+                                            {
+                                              staticClass: "btnDOIT",
+                                              attrs: {
+                                                size: "sm",
+                                                variant: "success"
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  _vm.doneTask(task_on.id)
+                                                }
+                                              }
+                                            },
+                                            [_vm._v("IT IS DONE")]
+                                          )
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "b-col",
+                                        [
+                                          _c(
+                                            "b-button",
+                                            {
+                                              staticClass: "btnDELEGATE",
+                                              attrs: {
+                                                size: "sm",
+                                                variant: "success"
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  _vm.editTask(
+                                                    task_on.id,
+                                                    "delegate"
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [_vm._v("INTO DELEGATE")]
+                                          )
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "b-col",
+                                        [
+                                          _c(
+                                            "b-button",
+                                            {
+                                              staticClass: "btnSCHEDULE",
+                                              attrs: {
+                                                size: "sm",
+                                                variant: "success"
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  _vm.editTask(
+                                                    task_on.id,
+                                                    "schedule"
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [_vm._v("INTO SCHEDULE")]
+                                          )
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "b-col",
+                                        [
+                                          _c(
+                                            "b-button",
+                                            {
+                                              staticClass: "btnDROP",
+                                              attrs: {
+                                                size: "sm",
+                                                variant: "success"
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  _vm.editTask(
+                                                    task_on.id,
+                                                    "drop"
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [_vm._v("INTO DROP")]
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    })
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "b-card",
+                { attrs: { "no-body": "" } },
+                [
+                  _c(
+                    "b-card-header",
+                    {
+                      staticClass: "p-1",
+                      attrs: { "header-tag": "header", role: "tab" }
+                    },
+                    [
+                      _c(
+                        "b-btn",
+                        {
+                          directives: [
+                            {
+                              name: "b-toggle",
+                              rawName: "v-b-toggle.accordion2",
+                              modifiers: { accordion2: true }
+                            }
+                          ],
+                          staticClass: "btnDELEGATE bold",
+                          attrs: { block: "", variant: "info" }
+                        },
+                        [_vm._v("DELEGATE")]
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "b-collapse",
+                    {
+                      attrs: {
+                        id: "accordion2",
+                        accordion: "my-accordion",
+                        role: "tabpanel"
+                      }
+                    },
+                    _vm._l(_vm.tasks_on.delegate, function(task_on) {
+                      return _c(
+                        "b-card-body",
+                        { key: task_on.id },
+                        [
+                          _c(
+                            "b-card",
+                            {
+                              staticClass: "mb-2",
+                              attrs: { title: task_on.title }
+                            },
+                            [
+                              _c("p", { staticClass: "card-text" }, [
+                                _vm._v(" " + _vm._s(task_on.task))
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "b-container",
+                                { staticClass: "bv-example-row" },
+                                [
+                                  _c(
+                                    "b-row",
+                                    { staticClass: "text-center" },
+                                    [
+                                      _c(
+                                        "b-col",
+                                        [
+                                          _c(
+                                            "b-button",
+                                            {
+                                              staticClass: "btnDELEGATE",
+                                              attrs: {
+                                                size: "sm",
+                                                variant: "success"
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  _vm.doneTask(task_on.id)
+                                                }
+                                              }
+                                            },
+                                            [_vm._v("IT IS DONE")]
+                                          )
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "b-col",
+                                        [
+                                          _c(
+                                            "b-button",
+                                            {
+                                              staticClass: "btnDOIT",
+                                              attrs: {
+                                                size: "sm",
+                                                variant: "success"
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  _vm.editTask(
+                                                    task_on.id,
+                                                    "doit"
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [_vm._v("INTO DOIT")]
+                                          )
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "b-col",
+                                        [
+                                          _c(
+                                            "b-button",
+                                            {
+                                              staticClass: "btnSCHEDULE",
+                                              attrs: {
+                                                size: "sm",
+                                                variant: "success"
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  _vm.editTask(
+                                                    task_on.id,
+                                                    "schedule"
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [_vm._v("INTO SCHEDULE")]
+                                          )
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "b-col",
+                                        [
+                                          _c(
+                                            "b-button",
+                                            {
+                                              staticClass: "btnDROP",
+                                              attrs: {
+                                                size: "sm",
+                                                variant: "success"
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  _vm.editTask(
+                                                    task_on.id,
+                                                    "drop"
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [_vm._v("INTO DROP")]
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    })
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "b-card",
+                { attrs: { "no-body": "" } },
+                [
+                  _c(
+                    "b-card-header",
+                    {
+                      staticClass: "p-1",
+                      attrs: { "header-tag": "header", role: "tab" }
+                    },
+                    [
+                      _c(
+                        "b-btn",
+                        {
+                          directives: [
+                            {
+                              name: "b-toggle",
+                              rawName: "v-b-toggle.accordion3",
+                              modifiers: { accordion3: true }
+                            }
+                          ],
+                          staticClass: "btnSCHEDULE bold",
+                          attrs: { block: "", variant: "info" }
+                        },
+                        [_vm._v("SCHEDULE")]
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "b-collapse",
+                    {
+                      attrs: {
+                        id: "accordion3",
+                        accordion: "my-accordion",
+                        role: "tabpanel"
+                      }
+                    },
+                    _vm._l(_vm.tasks_on.schedule, function(task_on) {
+                      return _c(
+                        "b-card-body",
+                        { key: task_on.id },
+                        [
+                          _c(
+                            "b-card",
+                            {
+                              staticClass: "mb-2",
+                              attrs: { title: task_on.title }
+                            },
+                            [
+                              _c("p", { staticClass: "card-text" }, [
+                                _vm._v(" " + _vm._s(task_on.task))
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "b-container",
+                                { staticClass: "bv-example-row" },
+                                [
+                                  _c(
+                                    "b-row",
+                                    { staticClass: "text-center" },
+                                    [
+                                      _c(
+                                        "b-col",
+                                        [
+                                          _c(
+                                            "b-button",
+                                            {
+                                              staticClass: "btnSCHEDULE",
+                                              attrs: {
+                                                size: "sm",
+                                                variant: "success"
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  _vm.doneTask(task_on.id)
+                                                }
+                                              }
+                                            },
+                                            [_vm._v("IT IS DONE")]
+                                          )
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "b-col",
+                                        [
+                                          _c(
+                                            "b-button",
+                                            {
+                                              staticClass: "btnDOIT",
+                                              attrs: {
+                                                size: "sm",
+                                                variant: "success"
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  _vm.editTask(
+                                                    task_on.id,
+                                                    "doit"
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [_vm._v("INTO DOIT")]
+                                          )
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "b-col",
+                                        [
+                                          _c(
+                                            "b-button",
+                                            {
+                                              staticClass: "btnDELEGATE",
+                                              attrs: {
+                                                size: "sm",
+                                                variant: "success"
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  _vm.editTask(
+                                                    task_on.id,
+                                                    "delegate"
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [_vm._v("INTO DELEGATE")]
+                                          )
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "b-col",
+                                        [
+                                          _c(
+                                            "b-button",
+                                            {
+                                              staticClass: "btnDROP",
+                                              attrs: {
+                                                size: "sm",
+                                                variant: "success"
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  _vm.editTask(
+                                                    task_on.id,
+                                                    "drop"
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [_vm._v("INTO DROP")]
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    })
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "b-card",
+                { attrs: { "no-body": "" } },
+                [
+                  _c(
+                    "b-card-header",
+                    {
+                      staticClass: "p-1",
+                      attrs: { "header-tag": "header", role: "tab" }
+                    },
+                    [
+                      _c(
+                        "b-btn",
+                        {
+                          directives: [
+                            {
+                              name: "b-toggle",
+                              rawName: "v-b-toggle.accordion4",
+                              modifiers: { accordion4: true }
+                            }
+                          ],
+                          staticClass: "btnDROP bold",
+                          attrs: { block: "", variant: "info" }
+                        },
+                        [_vm._v("DROP")]
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "b-collapse",
+                    {
+                      attrs: {
+                        id: "accordion4",
+                        accordion: "my-accordion",
+                        role: "tabpanel"
+                      }
+                    },
+                    _vm._l(_vm.tasks_on.drop, function(task_on) {
+                      return _c(
+                        "b-card-body",
+                        { key: task_on.id },
+                        [
+                          _c(
+                            "b-card",
+                            {
+                              staticClass: "mb-2",
+                              attrs: { title: task_on.title }
+                            },
+                            [
+                              _c("p", { staticClass: "card-text" }, [
+                                _vm._v(" " + _vm._s(task_on.task))
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "b-container",
+                                { staticClass: "bv-example-row" },
+                                [
+                                  _c(
+                                    "b-row",
+                                    { staticClass: "text-center" },
+                                    [
+                                      _c(
+                                        "b-col",
+                                        [
+                                          _c(
+                                            "b-button",
+                                            {
+                                              staticClass: "btnDROP",
+                                              attrs: {
+                                                size: "sm",
+                                                variant: "success"
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  _vm.doneTask(task_on.id)
+                                                }
+                                              }
+                                            },
+                                            [_vm._v("IT IS DONE")]
+                                          )
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "b-col",
+                                        [
+                                          _c(
+                                            "b-button",
+                                            {
+                                              staticClass: "btnDOIT",
+                                              attrs: {
+                                                size: "sm",
+                                                variant: "success"
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  _vm.editTask(
+                                                    task_on.id,
+                                                    "doit"
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [_vm._v("INTO DOIT")]
+                                          )
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "b-col",
+                                        [
+                                          _c(
+                                            "b-button",
+                                            {
+                                              staticClass: "btnDELEGATE",
+                                              attrs: {
+                                                size: "sm",
+                                                variant: "success"
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  _vm.editTask(
+                                                    task_on.id,
+                                                    "delegate"
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [_vm._v("INTO DELEGATE")]
+                                          )
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "b-col",
+                                        [
+                                          _c(
+                                            "b-button",
+                                            {
+                                              staticClass: "btnSCHEDULE",
+                                              attrs: {
+                                                size: "sm",
+                                                variant: "success"
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  _vm.editTask(
+                                                    task_on.id,
+                                                    "schedule"
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [_vm._v("INTO SCHEDULE")]
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    })
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ])
+      ])
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-6d0239cc", module.exports)
+  }
+}
+
+/***/ }),
+/* 249 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(250)
+}
+var normalizeComponent = __webpack_require__(19)
+/* script */
+var __vue_script__ = __webpack_require__(252)
+/* template */
+var __vue_template__ = __webpack_require__(253)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-d8891004"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/views/AddTask.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-d8891004", Component.options)
+  } else {
+    hotAPI.reload("data-v-d8891004", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 250 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(251);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(246)("7f5c24a8", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-d8891004\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./AddTask.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-d8891004\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./AddTask.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 251 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(15)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.addTask[data-v-d8891004] {\n  margin-top: 10px;\n  margin-left: 10px;\n}\n.btn-success[data-v-d8891004] {\n  margin-left: 30px;\n}\n.form-control[data-v-d8891004] {\n  color: #2f4f4f;\n  border-color: rgb(129, 113, 139);\n  -webkit-box-shadow: 0 0 0 0.2rem rgba(223, 211, 235, 0.527);\n          box-shadow: 0 0 0 0.2rem rgba(223, 211, 235, 0.527);\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 252 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__config__ = __webpack_require__(9);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      task: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur",
+      urgency: "0",
+      importance: "0",
+      errors: []
+    };
+  },
+
+  methods: {
+    addTask: function addTask() {
+      var _this = this;
+
+      this.errors = [];
+
+      var postData = JSON.stringify({
+        task: this.task,
+        urgency: this.urgency,
+        importance: this.importance
+      });
+
+      axios.post(__WEBPACK_IMPORTED_MODULE_0__config__["b" /* getTasksUrl */], postData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: Object(__WEBPACK_IMPORTED_MODULE_0__config__["c" /* getToken */])()
+        }
+      }).then(function (response) {
+        if (response.status === 200 && response.data) {
+          if (response.data.errors) {
+            _this.errors = response.data.errors;
+          }
+          if (response.data.success) {
+            _this.urgency = "0", _this.importance = "0";
+            _this.$store.dispatch("setTasksObject", response.data.success);
+          }
+        }
+      });
+    }
+  }
+});
+
+/***/ }),
+/* 253 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "container-fluid mt-5" }, [
+      _c("div", { staticClass: "row justify-content-center" }, [
+        _c(
+          "div",
+          { staticClass: "col-md-8 mt-1" },
+          [
+            _c("b-form-textarea", {
+              attrs: {
+                id: "textarea1",
+                placeholder: "Enter new task description...",
+                rows: 4,
+                "max-rows": 6
+              },
+              model: {
+                value: _vm.task,
+                callback: function($$v) {
+                  _vm.task = $$v
+                },
+                expression: "task"
+              }
+            }),
+            _vm._v(" "),
+            _vm.errors.task
+              ? _c(
+                  "span",
+                  {
+                    staticClass: "ml-2",
+                    staticStyle: { color: "red", "font-size": "small" }
+                  },
+                  [_vm._v(_vm._s(_vm.errors.task.join()))]
+                )
+              : _vm._e()
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-8 " }, [
+          _c(
+            "div",
+            { staticClass: "addTask" },
+            [
+              _c(
+                "b-form-checkbox",
+                {
+                  staticClass: "check",
+                  attrs: { type: "checkbox", value: "1" },
+                  model: {
+                    value: _vm.importance,
+                    callback: function($$v) {
+                      _vm.importance = $$v
+                    },
+                    expression: "importance"
+                  }
+                },
+                [_vm._v("\n                Importance\n                ")]
+              ),
+              _vm._v(" "),
+              _c(
+                "b-form-checkbox",
+                {
+                  staticClass: "check",
+                  attrs: { value: "1" },
+                  model: {
+                    value: _vm.urgency,
+                    callback: function($$v) {
+                      _vm.urgency = $$v
+                    },
+                    expression: "urgency"
+                  }
+                },
+                [_vm._v("\n                Urgency\n                ")]
+              ),
+              _vm._v(" "),
+              _c(
+                "b-button",
+                {
+                  attrs: { size: "sm", variant: "success" },
+                  on: { click: _vm.addTask }
+                },
+                [_vm._v("Add Task")]
+              )
+            ],
+            1
+          )
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-d8891004", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

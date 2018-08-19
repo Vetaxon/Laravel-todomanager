@@ -1,5 +1,5 @@
 <template>
-<div>
+<div >
   <b-navbar toggleable="md" type="dark" variant="info" style="background-color:indigo !important">
 
     <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
@@ -9,15 +9,10 @@
     <b-collapse is-nav id="nav_collapse">
 
       <b-navbar-nav>
-        <b-nav-item @click="getTasks">getTasks</b-nav-item>
-        <b-nav-item @click="getTask(1)">getTask</b-nav-item>
-        <b-nav-item @click="deleteTask(9)">deleteTask</b-nav-item>
-        <b-nav-item @click="updateTask(10)">updateTask</b-nav-item>
-        <b-nav-item @click="addTask">addTask</b-nav-item>
-
+        <!-- <b-nav-item @click="deleteTask(9)">deleteTask</b-nav-item> -->
       </b-navbar-nav>
 
-      <!-- Right aligned nav items -->
+
       <b-navbar-nav class="ml-auto">
 
         <!-- <b-nav-form>
@@ -50,6 +45,8 @@
 import { mapState } from "vuex";
 import { getTasksUrl } from "../../config";
 import { getToken } from "../../config";
+import { userDefault } from "../../config";
+import { tasksDefault } from "../../config";
 
 export default {
   data() {
@@ -62,81 +59,20 @@ export default {
     onSignout() {
       window.localStorage.removeItem("access_token");
       let user = { name: "", email: "" };
-      this.$store.dispatch("setUserObject", user);
+      this.$store.dispatch("setUserObject", userDefault);
+      this.$store.dispatch("setTasksObject", tasksDefault);
       this.$router.push({ path: "/login" });
     },
 
-    getTasks() {
-      axios
-        .get(getTasksUrl, {
-          headers: { Authorization: getToken() }
-        })
-        .then(response => {
-          console.log(response);
-        });
-    },
-
-    getTask(id) {
-      axios
-        .get(getTasksUrl + "/" + id, {
-          headers: { Authorization: getToken() }
-        })
-        .then(response => {
-          console.log(response);
-        });
-    },
-
-    deleteTask(id) {
-      axios
-        .delete(getTasksUrl + "/" + id, {
-          headers: { Authorization: getToken() }
-        })
-        .then(response => {
-          console.log(response);
-        });
-    },
-
-    addTask() {
-      console.log(getToken());
-
-      const postData = JSON.stringify({
-        task:
-          "loredkdddddddospp ssllsl soosll spppssssssslll ss sooooooooossll slllllllss spppppsll sppppppssl ssssssssssssssss",
-        urgency: 1,
-        importance: 1
-      });
-
-      axios
-        .post(getTasksUrl, postData, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: getToken()
-          }
-        })
-        .then(response => {
-          console.log(response);
-        });
-    },
-    updateTask(id) {
-      this.getTask(id);
-      const postData = JSON.stringify({
-        task:
-          "updated loredkdddddddospp  ss sooooooooossll slllllllss spppppsll sppppppssl ssssssssssssssss",
-        urgency: 1,
-        importance: 1
-      });
-
-      axios
-        .put(getTasksUrl + "/" + id, postData, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: getToken()
-          }
-        })
-        .then(response => {
-          if (response.data.success === true) this.getTask(id);
-        });
-    }
+    // deleteTask(id) {
+    //   axios
+    //     .delete(getTasksUrl + "/" + id, {
+    //       headers: { Authorization: getToken() }
+    //     })
+    //     .then(response => {
+    //       console.log(response);
+    //     });
+    // }
   },
 
   computed: {

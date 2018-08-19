@@ -11,7 +11,7 @@ import "bootstrap-vue/dist/bootstrap-vue.css";
 Vue.use(BootstrapVue);
 Vue.use(VueRouter);
 
-import {getUserUrl} from './config';
+import { getUserUrl } from "./config";
 
 import App from "./components/views/App";
 import Login from "./components/views/Login";

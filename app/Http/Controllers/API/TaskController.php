@@ -16,9 +16,16 @@ class TaskController extends Controller
     {
 
         $tasks_on = $this->sortTasks(User::findOrFail(Auth::id())->tasks()->orderBy('created_at')->get()->where('status', 'on')->toArray());
-        $tasks_done = $this->sortTasks(User::findOrFail(Auth::id())->tasks()->orderBy('created_at')->get()->where('status', 'done')->toArray());
+        $tasks_done = $this->sortTasks(User::findOrFail(Auth::id())->tasks()->orderBy('updated_at')->get()->where('status', 'done')->toArray());
 
-        return response()->json(['success' => ['on' => $tasks_on, 'done' => $tasks_done]]);
+        return response()->json(['success' => ['on' => $tasks_on]]);
+    }
+
+    public function indexArchive()
+    {
+        $tasks_done = User::findOrFail(Auth::id())->tasks()->orderBy('updated_at')->where('status', 'done')->jsonPaginate(10);
+
+        return $tasks_done;
     }
 
 
@@ -66,7 +73,7 @@ class TaskController extends Controller
         $task = User::findOrFail(Auth::id())->tasks()->findOrFail($id)->update($request);
 
         if ($task)
-            return $this->index();
+            return response()->json(['success' => 'updated']);
     }
 
     protected function updateTaskValue($request, $id)

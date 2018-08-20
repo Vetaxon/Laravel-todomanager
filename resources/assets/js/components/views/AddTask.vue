@@ -61,7 +61,7 @@ export default {
             }
             if (response.data.success) {
               (this.urgency = "0"), (this.importance = "0");
-              this.$store.dispatch("setTasksObject", response.data.success);
+              this.$store.dispatch("setTasksObject", response.data.success.on);
             }
           }
         });

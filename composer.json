@@ -10,7 +10,8 @@
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.6.*",
         "laravel/passport": "^7.0",
-        "laravel/tinker": "^1.0"
+        "laravel/tinker": "^1.0",
+        "spatie/laravel-json-api-paginate": "^1.4"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.1",

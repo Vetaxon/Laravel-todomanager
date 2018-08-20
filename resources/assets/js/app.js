@@ -18,6 +18,7 @@ import Login from "./components/views/Login";
 import Register from "./components/views/Register";
 import Dashboard from "./components/views/Dashboard";
 import Profile from "./components/views/Profile.vue";
+import Archive from "./components/views/Archive.vue";
 
 const router = new VueRouter({
     mode: "history",
@@ -42,6 +43,12 @@ const router = new VueRouter({
             path: "/",
             name: "dashboard",
             component: Dashboard,
+            meta: { requiredAuth: true }
+        },
+        {
+            path: "/archive",
+            name: "archive",
+            component: Archive,
             meta: { requiredAuth: true }
         }
     ]

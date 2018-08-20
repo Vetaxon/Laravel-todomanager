@@ -3,6 +3,8 @@ export const loginUrl = apiDomain + '/api/login';
 export const getUserUrl = apiDomain +'/api/user';
 export const getRegisterUrl = apiDomain + '/api/register';
 export const getTasksUrl = apiDomain + '/api/tasks';
+export const getArchiveUrl = apiDomain + '/api/tasks/archive';
+
 export const updateUser = apiDomain + '/api/user/update'
 export const client_id = '2';
 export const client_secret = '59hohUukxDdcc0uDUw0wUrj54qqZQ43PS1bU2KYv';
@@ -17,7 +19,7 @@ export const getToken = function () {
 export const userDefault = { name: "", email: "" };
 
 export const tasksDefault = {
-    delegate: [
+    "delegate": [
         {
             created_at: "",
             id: "",
@@ -30,7 +32,7 @@ export const tasksDefault = {
             user_id: ""
         }
     ],
-    doit: [
+    "doit": [
         {
             created_at: "",
             id: "",
@@ -43,7 +45,7 @@ export const tasksDefault = {
             user_id: ""
         }
     ],
-    drop: [
+    "drop": [
         {
             created_at: "",
             id: "",
@@ -56,7 +58,7 @@ export const tasksDefault = {
             user_id: ""
         }
     ],
-    schedule: [
+    "schedule": [
         {
             created_at: "",
             id: "",

@@ -126,7 +126,7 @@ export default {
         })
         .then(response => {
           if (response.status === 200 && response.data.success) {
-            this.$store.dispatch("setTasksObject", response.data.success);
+            this.$store.dispatch("setTasksObject", response.data.success.on);
           }
         });
     },
@@ -152,7 +152,7 @@ export default {
               console.log(response.data);
             }
             if (response.data.success) {
-              this.$store.dispatch("setTasksObject", response.data.success);
+              this.$store.dispatch("setTasksObject", response.data.success.on);
             }
           }
         });
@@ -176,7 +176,7 @@ export default {
             }
             if (response.data.success) {
               console.log(response.data.success);
-              this.$store.dispatch("setTasksObject", response.data.success);
+              this.$store.dispatch("setTasksObject", response.data.success.on);
             }
           }
         });

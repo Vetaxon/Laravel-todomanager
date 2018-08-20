@@ -20,8 +20,11 @@ export const store = new Vuex.Store({
             state.authUser = userObj;
         },
         SET_TASKS(state, taskObj) {
-            state.tasks = taskObj;
-        }
+            state.tasks.on = taskObj;
+        },
+        SET_ARCHIVE(state, taskObj) {
+            state.tasks.done = taskObj;
+        },
     },
     actions: {
         setUserObject: ({ commit }, userObj) => {
@@ -29,6 +32,9 @@ export const store = new Vuex.Store({
         },
         setTasksObject: ({ commit }, tasksObj) => {
             commit("SET_TASKS", tasksObj);
+        },
+        setArchiveObject: ({ commit }, tasksObj) => {
+            commit("SET_ARCHIVE", tasksObj);
         }
     },
     getters: {

@@ -1,8 +1,8 @@
 <template>
     <div>
         <navbar></navbar>
-
         <addtask></addtask>
+
         <div class="container-fluid mt-5">
             <div class="row justify-content-center">
 
@@ -13,7 +13,7 @@
                         </b-card-header>
                         <b-collapse id="accordion1" accordion="my-accordion" role="tabpanel">
                                 <b-card-body v-for="task_on in tasks_on.doit" :key="task_on.id">
-                                        <b-card :title="task_on.title" class="mb-2">
+                                        <b-card :title="task_on.created_at" class="mb-2">
                                             <p class="card-text"> {{task_on.task}}</p>
                                             <b-container class="bv-example-row">
                                                 <b-row class="text-center">
@@ -34,7 +34,7 @@
                         </b-card-header>
                         <b-collapse id="accordion2" accordion="my-accordion" role="tabpanel">
                                 <b-card-body v-for="task_on in tasks_on.delegate" :key="task_on.id">
-                                        <b-card :title="task_on.title" class="mb-2">
+                                        <b-card :title="task_on.created_at" class="mb-2">
                                             <p class="card-text"> {{task_on.task}}</p>
                                             <b-container class="bv-example-row">
                                                 <b-row class="text-center">
@@ -55,7 +55,7 @@
                         </b-card-header>
                         <b-collapse id="accordion3" accordion="my-accordion" role="tabpanel">
                                 <b-card-body v-for="task_on in tasks_on.schedule" :key="task_on.id">
-                                        <b-card :title="task_on.title" class="mb-2">
+                                        <b-card :title="task_on.created_at" class="mb-2">
                                             <p class="card-text"> {{task_on.task}}</p>
                                             <b-container class="bv-example-row">
                                                 <b-row class="text-center">
@@ -77,7 +77,7 @@
                         </b-card-header>
                         <b-collapse id="accordion4" accordion="my-accordion" role="tabpanel">
                                 <b-card-body v-for="task_on in tasks_on.drop" :key="task_on.id">
-                                        <b-card :title="task_on.title" class="mb-2">
+                                        <b-card :title="task_on.created_at" class="mb-2">
                                             <p class="card-text"> {{task_on.task}}</p>
                                             <b-container class="bv-example-row">
                                                 <b-row class="text-center">
@@ -147,12 +147,10 @@ export default {
           }
         })
         .then(response => {
-          if (response.status === 200 && response.data) {
-            if (response.data.errors) {
-              console.log(response.data);
-            }
-            if (response.data.success) {
-              this.$store.dispatch("setTasksObject", response.data.success.on);
+            console.log(response)
+          if (response.status === 200) {
+            if (response.data.success === 'updated') {
+              this.getTasks();
             }
           }
         });
@@ -264,6 +262,8 @@ export default {
   margin-top: 10px;
   color: #2f4f4f;
   margin-left: 30px;
+  text-align: left;
+  font-size: 10px;
 }
 
 .card-text:last-child {

@@ -17,11 +17,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/register', 'API\UserController@register');
 Route::post('/login', 'API\UserController@login');
+Route::post('/forgot', 'API\UserController@forgot');
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:api');
 Route::put('/user/update', 'API\UserController@update')->middleware('auth:api');
-
 
 
 Route::get('/tasks', 'API\TaskController@index')->middleware('auth:api');

@@ -55,7 +55,7 @@ export default {
     return {
       form: {
         name: "Victor",
-        email: "victor@mail.ru",
+        email: "vitalii.ivanov1983@gmail.com",
         password: "111111",
         password_confirmation: "111111"
       },

@@ -2,10 +2,13 @@ export const apiDomain = 'http://localhost:8000';
 export const loginUrl = apiDomain + '/api/login';
 export const getUserUrl = apiDomain +'/api/user';
 export const getRegisterUrl = apiDomain + '/api/register';
+export const getForgotUrl = apiDomain + '/api/forgot';
+export const updateUser = apiDomain + '/api/user/update';
+
 export const getTasksUrl = apiDomain + '/api/tasks';
 export const getArchiveUrl = apiDomain + '/api/tasks/archive';
 
-export const updateUser = apiDomain + '/api/user/update'
+
 export const client_id = '2';
 export const client_secret = '59hohUukxDdcc0uDUw0wUrj54qqZQ43PS1bU2KYv';
 

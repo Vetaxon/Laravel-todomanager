@@ -19,6 +19,7 @@ import Register from "./components/views/Register";
 import Dashboard from "./components/views/Dashboard";
 import Profile from "./components/views/Profile.vue";
 import Archive from "./components/views/Archive.vue";
+import Forgot from "./components/views/Forgot.vue";
 
 const router = new VueRouter({
     mode: "history",
@@ -27,6 +28,11 @@ const router = new VueRouter({
             path: "/login",
             name: "login",
             component: Login
+        },
+        {
+            path: "/forgot",
+            name: "forgot",
+            component: Forgot
         },
         {
             path: "/register",

@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\API;
 
-
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Jobs\SendNewPassEmail;
 use App\User;
+use Illuminate\Http\Request;
+use App\Jobs\SendWelcomeMessage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -65,7 +66,45 @@ class UserController extends Controller
             'email' => $user->email
         ];
 
+        SendWelcomeMessage::dispatch($success['user']);
+
         return response()->json(['success' => $success]);
+    }
+
+    public function forgot(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|string|email|max:255|exists:users',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()]);
+        }
+
+        $newPassword = str_random(6);
+
+        $newPasswordHash = bcrypt($newPassword);
+
+        $user = User::where('email', $request->email);
+
+        $updatePass = $user->update(['password' => $newPasswordHash]);
+
+        $userParams = $user->get()->first();
+
+        if ($updatePass) {
+
+            $paramsForLetter = [
+                'name' => $userParams->name,
+                'email' => $userParams->email,
+                'newpass' => $newPassword
+            ];            
+            
+            SendNewPassEmail::dispatch($paramsForLetter);            
+            
+            return response()->json(['success' => 'success']);
+        }
+
+        return response()->json(['errors']);
     }
 
     public function update(Request $request)

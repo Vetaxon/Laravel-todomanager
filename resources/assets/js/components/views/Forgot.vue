@@ -3,8 +3,9 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-6 mt-5">
-                    <div class="card card-default ">
-                        <div class="card-header">Login</div>
+                    <div class="card card-default">
+                        <div class="card-header">Forgot Password</div>
+
                         <div class="card-body">
                             <b-form>
                                 <b-form-group id="email_lab"
@@ -17,23 +18,12 @@
                                                   placeholder="Enter email">
                                     </b-form-input>
                                     <span v-if="errors.email" style="color:red; font-size:small">{{ errors.email.join() }}</span>
-                                </b-form-group>
-                                <b-form-group id="pass_lab"
-                                              label="Your Password:"
-                                              label-for="password">
-                                    <b-form-input id="password"
-                                                  type="password"
-                                                  v-model="form.password"
-                                                  required
-                                                  placeholder="Enter password">
-                                    </b-form-input>
-                                    <span v-if="errors.password" style="color:red; font-size:small">{{ errors.password.join() }}</span>
+                                    <span v-if="changeSendEmail" style="color:green; font-size:small">A new password has been sent to your email, please check your inbox!</span>
                                 </b-form-group>
 
-                                <b-button @click="onSubmit" variant="primary">Login</b-button>
+                                <b-button @click="onSubmit" variant="primary">Send new password</b-button>
                                 <b-button type="reset" @click="onReset" variant="danger">Reset</b-button>
-                                <i><b-link :to="{ name: 'forgot' }" style="color:indigo;  margin-left: 5px;">  Forgot Password?</b-link></i>
-                                <b-button class="pull-right" type="success" variant="success" :to="{ name: 'register' }">Register</b-button>
+                                <b-button class="pull-right" type="success" variant="success" :to="{ name: 'login' }">Login</b-button>
                             </b-form>
                         </div>
                     </div>
@@ -44,27 +34,26 @@
 </template>
 
 <script>
-import { loginUrl } from "./../../config";
+import { getForgotUrl } from "./../../config";
 
 export default {
   data() {
     return {
       form: {
-        email: "vitalii.ivanov1983@gmail.com",
-        password: "111111"
+        email: "ivanovv1983@mail.ru"
       },
-      errors: []
+      errors: [],
+      changeSendEmail: false
     };
   },
   methods: {
     onSubmit() {
       const postData = JSON.stringify({
-        email: this.form.email,
-        password: this.form.password
+        email: this.form.email
       });
 
       axios
-        .post(loginUrl, postData, {
+        .post(getForgotUrl, postData, {
           headers: { "Content-Type": "application/json" }
         })
         .then(response => {
@@ -72,20 +61,15 @@ export default {
             if (response.data.errors) {
               this.errors = response.data.errors;
             }
-            if (response.data.success) {
-              window.localStorage.setItem(
-                "access_token",
-                JSON.stringify(response.data.success.access_token)
-              );
-              this.$router.push({ name: "dashboard" });
-            }
+            if (response.data.success === "success")
+              this.changeSendEmail = true;
           }
         });
     },
     onReset() {
       this.form.email = "";
-      this.form.password = "";
       this.errors = [];
+      this.changeSendEmail = false;
     }
   }
 };

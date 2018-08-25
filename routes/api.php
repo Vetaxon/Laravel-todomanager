@@ -30,3 +30,4 @@ Route::get('/tasks/{id}', 'API\TaskController@show')->middleware('auth:api')->wh
 Route::post('/tasks', 'API\TaskController@store')->middleware('auth:api');
 Route::delete('/tasks/{id}', 'API\TaskController@destroy')->middleware('auth:api')->where('id', '[0-9]+');
 Route::put('/tasks/{id}', 'API\TaskController@update')->middleware('auth:api')->where('id', '[0-9]+');
+

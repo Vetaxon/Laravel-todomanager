@@ -58,7 +58,9 @@ class UserController extends Controller
 
         $input['password'] = bcrypt($input['password']);
 
-        $user = User::create($input);
+        $user_create = User::create($input)->subscribes()->create(['daily' => '0']);
+
+        $user = User::find($user_create->user_id);
 
         $success['access_token'] = $user->createToken('')->accessToken;
         $success['user'] = [
@@ -118,7 +120,30 @@ class UserController extends Controller
         if (array_key_exists('password', $request->all()))
             return $this->updatePassword($request->all());
 
+        if (array_key_exists('daily', $request->all()) && count($request->all()) == 1)
+            return $this->updateDaily($request->all());
+
         return response()->json(404);
+    }
+
+    protected function updateDaily($request)
+    {
+
+        
+        $validator = Validator::make($request, [
+            'daily' => 'required|in:0,1',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()]);
+        }
+
+        $user = User::findOrFail(Auth::id())->update($request);
+
+        if ($user) {
+            return response()->json(['success' => User::findOrFail(Auth::id())]);
+        }
+
     }
 
     protected function updateName($request)
@@ -155,7 +180,8 @@ class UserController extends Controller
             return response()->json(['success' => User::findOrFail(Auth::id())]);
         }
 
-    }
+    }   
+    
 
     protected function updatePassword($request)
     {

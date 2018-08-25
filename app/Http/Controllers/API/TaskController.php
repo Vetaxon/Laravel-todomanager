@@ -111,7 +111,7 @@ class TaskController extends Controller
         if ($validator->fails())
             return ['errors' => $validator->errors()];
 
-        $input['title'] = substr($input['task'], 0, 25) . "...";
+        $input['title'] = substr($input['task'], 0, 70) . "...";
 
         return $input;
     }

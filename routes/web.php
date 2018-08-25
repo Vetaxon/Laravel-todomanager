@@ -14,7 +14,7 @@
 use Illuminate\Support\Facades\Route;
 
 //Route::get('/{view?}', 'HomeController@index')->where('view', '(.*)')->name('horizon.index');
-//Route::get('/home', 'HomeController@index')->name('home');
+//Route::get('/mail', 'API\MailingController@daily');
 //Auth::routes();
 
 

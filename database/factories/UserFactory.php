@@ -24,9 +24,9 @@ $factory->define(App\User::class, function (Faker $faker) {
 
 $factory->define(App\Task::class, function (Faker $faker) {
     return [
-        'user_id' => 1,
-        'title' => $faker->text(40),
-        'task' => $faker->text(300),
+        'user_id' => 5,
+        'title' => $faker->text(70),
+        'task' => $faker->text(200),
         'status' => $faker->randomElement(['on', 'done']),
         'urgency' => $faker->randomElement([1, 0]),
         'importance' => $faker->randomElement([1, 0]),

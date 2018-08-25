@@ -1,20 +1,20 @@
 <template>
   <div>
-    <!--<h1>Vue Router Demo App</h1>-->
-
-    <!--<p>-->
-      <!--<router-link :to="{ name: 'home' }">Home</router-link> |-->
-      <!--<router-link :to="{ name: 'hello' }">Hello World</router-link> |-->
-      <!--<router-link :to="{ name: 'login' }">Login</router-link>-->
-
-    <!--</p>-->
+      <!-- <transition name="bounce" :duration="{ enter: 300, leave: 0 }" enter-active-class="bounceInLeft" leave-active-class="fade"> -->
 
 
-      <!--<router-view></router-view>-->
+    <router-view></router-view>
 
+    <!-- </transition> -->
   </div>
 </template>
 <script>
-  export default {}
+import { router } from "./../../router.js";
+
+export default {
+  components: {
+    router
+  }
+};
 </script>
 

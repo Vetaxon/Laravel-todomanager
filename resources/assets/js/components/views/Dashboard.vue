@@ -2,93 +2,166 @@
     <div>
         <navbar></navbar>
         <addtask></addtask>
-
-        <div class="container-fluid mt-5">
+        <div class="container-fluid">
             <div class="row justify-content-center">
+                <div class="col-md-5 justify-content-center">
+                    <chart></chart>
+                </div>
+                <div class="col-md-8">
 
-                <div class="col-md-8 mt-1">
-                    <b-card no-body >
+                    <b-card no-body>
                         <b-card-header header-tag="header" class="p-1" role="tab">
-                            <b-btn class="btnDOIT bold" block v-b-toggle.accordion1 variant="info" >DO IT!</b-btn>
+                            <b-btn class="btnDOIT bold" block v-b-toggle.accordion1 variant="info">DO IT!</b-btn>
                         </b-card-header>
                         <b-collapse id="accordion1" accordion="my-accordion" role="tabpanel">
-                                <b-card-body v-for="task_on in tasks_on.doit" :key="task_on.id">
-                                        <b-card :title="task_on.created_at" class="mb-2">
-                                            <p class="card-text"> {{task_on.task}}</p>
-                                            <b-container class="bv-example-row">
-                                                <b-row class="text-center">
-                                                    <b-col><b-button class="btnDOIT" @click="doneTask(task_on.id)" size="sm" variant="success">IT IS DONE</b-button></b-col>
-                                                    <b-col><b-button class="btnDELEGATE" @click="editTask(task_on.id, 'delegate')" size="sm" variant="success">INTO DELEGATE</b-button></b-col>
-                                                    <b-col><b-button class="btnSCHEDULE" @click="editTask(task_on.id, 'schedule')" size="sm" variant="success">INTO SCHEDULE</b-button></b-col>
-                                                    <b-col><b-button class="btnDROP" @click="editTask(task_on.id, 'drop')" size="sm" variant="success">INTO DROP</b-button></b-col>
-                                                </b-row>
-                                            </b-container>
-                                        </b-card>
-                                </b-card-body>
+                            <transition-group name="zoom">
+                            <b-card-body v-for="task_on in tasks_on.doit" :key="task_on.id">
+                                    <b-card :title="task_on.created_at" class="mb-2">
+                                        <p class="card-text"> {{task_on.task}}</p>
+                                        <b-container class="bv-example-row">
+                                            <b-row class="text-center">
+                                                <b-col>
+                                                    <b-button class="btnDOIT" @click="doneTask(task_on.id)" size="sm"
+                                                              variant="success">IT IS DONE
+                                                    </b-button>
+                                                </b-col>
+                                                <b-col>
+                                                    <b-button class="btnDELEGATE"
+                                                              @click="editTask(task_on.id, 'delegate')" size="sm"
+                                                              variant="success">INTO DELEGATE
+                                                    </b-button>
+                                                </b-col>
+                                                <b-col>
+                                                    <b-button class="btnSCHEDULE"
+                                                              @click="editTask(task_on.id, 'schedule')" size="sm"
+                                                              variant="success">INTO SCHEDULE
+                                                    </b-button>
+                                                </b-col>
+                                                <b-col>
+                                                    <b-button class="btnDROP" @click="editTask(task_on.id, 'drop')"
+                                                              size="sm" variant="success">INTO DROP
+                                                    </b-button>
+                                                </b-col>
+                                            </b-row>
+                                        </b-container>
+                                    </b-card>
+
+                            </b-card-body>
+                            </transition-group>
                         </b-collapse>
                     </b-card>
 
-                    <b-card no-body >
+                    <b-card no-body>
                         <b-card-header header-tag="header" class="p-1" role="tab">
                             <b-btn block class="btnDELEGATE bold" v-b-toggle.accordion2 variant="info">DELEGATE</b-btn>
                         </b-card-header>
                         <b-collapse id="accordion2" accordion="my-accordion" role="tabpanel">
-                                <b-card-body v-for="task_on in tasks_on.delegate" :key="task_on.id">
-                                        <b-card :title="task_on.created_at" class="mb-2">
-                                            <p class="card-text"> {{task_on.task}}</p>
-                                            <b-container class="bv-example-row">
-                                                <b-row class="text-center">
-                                                    <b-col><b-button class="btnDELEGATE" @click="doneTask(task_on.id)" size="sm" variant="success">IT IS DONE</b-button></b-col>
-                                                    <b-col><b-button class="btnDOIT" @click="editTask(task_on.id, 'doit')" size="sm" variant="success">INTO DOIT</b-button></b-col>
-                                                    <b-col><b-button class="btnSCHEDULE" @click="editTask(task_on.id, 'schedule')" size="sm" variant="success">INTO SCHEDULE</b-button></b-col>
-                                                    <b-col><b-button class="btnDROP" @click="editTask(task_on.id, 'drop')" size="sm" variant="success">INTO DROP</b-button></b-col>
-                                                </b-row>
-                                            </b-container>
-                                        </b-card>
-                                </b-card-body>
+                            <transition-group name="zoom">
+                            <b-card-body v-for="task_on in tasks_on.delegate" :key="task_on.id">
+                                <b-card :title="task_on.created_at" class="mb-2">
+                                    <p class="card-text"> {{task_on.task}}</p>
+                                    <b-container class="bv-example-row">
+                                        <b-row class="text-center">
+                                            <b-col>
+                                                <b-button class="btnDELEGATE" @click="doneTask(task_on.id)" size="sm"
+                                                          variant="success">IT IS DONE
+                                                </b-button>
+                                            </b-col>
+                                            <b-col>
+                                                <b-button class="btnDOIT" @click="editTask(task_on.id, 'doit')"
+                                                          size="sm" variant="success">INTO DOIT
+                                                </b-button>
+                                            </b-col>
+                                            <b-col>
+                                                <b-button class="btnSCHEDULE" @click="editTask(task_on.id, 'schedule')"
+                                                          size="sm" variant="success">INTO SCHEDULE
+                                                </b-button>
+                                            </b-col>
+                                            <b-col>
+                                                <b-button class="btnDROP" @click="editTask(task_on.id, 'drop')"
+                                                          size="sm" variant="success">INTO DROP
+                                                </b-button>
+                                            </b-col>
+                                        </b-row>
+                                    </b-container>
+                                </b-card>
+                            </b-card-body>
+                            </transition-group>
                         </b-collapse>
                     </b-card>
 
-                    <b-card no-body >
+                    <b-card no-body>
                         <b-card-header header-tag="header" class="p-1" role="tab">
                             <b-btn block class="btnSCHEDULE bold" v-b-toggle.accordion3 variant="info">SCHEDULE</b-btn>
                         </b-card-header>
                         <b-collapse id="accordion3" accordion="my-accordion" role="tabpanel">
-                                <b-card-body v-for="task_on in tasks_on.schedule" :key="task_on.id">
-                                        <b-card :title="task_on.created_at" class="mb-2">
-                                            <p class="card-text"> {{task_on.task}}</p>
-                                            <b-container class="bv-example-row">
-                                                <b-row class="text-center">
-                                                    <b-col><b-button class="btnSCHEDULE" @click="doneTask(task_on.id)" size="sm" variant="success">IT IS DONE</b-button></b-col>
-                                                    <b-col><b-button class="btnDOIT" @click="editTask(task_on.id, 'doit')" size="sm" variant="success">INTO DOIT</b-button></b-col>
-                                                    <b-col><b-button class="btnDELEGATE" @click="editTask(task_on.id, 'delegate')" size="sm" variant="success">INTO DELEGATE</b-button></b-col>
-                                                    <b-col><b-button class="btnDROP" @click="editTask(task_on.id, 'drop')" size="sm" variant="success">INTO DROP</b-button></b-col>
-                                                </b-row>
-                                            </b-container>
-                                        </b-card>
-                                </b-card-body>
+                            <transition-group name="zoom">
+                            <b-card-body v-for="task_on in tasks_on.schedule" :key="task_on.id">
+                                <b-card :title="task_on.created_at" class="mb-2">
+                                    <p class="card-text"> {{task_on.task}}</p>
+                                    <b-container class="bv-example-row">
+                                        <b-row class="text-center">
+                                            <b-col>
+                                                <b-button class="btnSCHEDULE" @click="doneTask(task_on.id)" size="sm"
+                                                          variant="success">IT IS DONE
+                                                </b-button>
+                                            </b-col>
+                                            <b-col>
+                                                <b-button class="btnDOIT" @click="editTask(task_on.id, 'doit')"
+                                                          size="sm" variant="success">INTO DOIT
+                                                </b-button>
+                                            </b-col>
+                                            <b-col>
+                                                <b-button class="btnDELEGATE" @click="editTask(task_on.id, 'delegate')"
+                                                          size="sm" variant="success">INTO DELEGATE
+                                                </b-button>
+                                            </b-col>
+                                            <b-col>
+                                                <b-button class="btnDROP" @click="editTask(task_on.id, 'drop')"
+                                                          size="sm" variant="success">INTO DROP
+                                                </b-button>
+                                            </b-col>
+                                        </b-row>
+                                    </b-container>
+                                </b-card>
+                            </b-card-body>
+                            </transition-group>
                         </b-collapse>
                     </b-card>
 
-                    <b-card no-body >
+                    <b-card no-body>
                         <b-card-header header-tag="header" class="p-1" role="tab">
-                            <b-btn block  class="btnDROP bold" v-b-toggle.accordion4 variant="info">DROP</b-btn>
+                            <b-btn block class="btnDROP bold" v-b-toggle.accordion4 variant="info">DROP</b-btn>
 
                         </b-card-header>
                         <b-collapse id="accordion4" accordion="my-accordion" role="tabpanel">
-                                <b-card-body v-for="task_on in tasks_on.drop" :key="task_on.id">
-                                        <b-card :title="task_on.created_at" class="mb-2">
-                                            <p class="card-text"> {{task_on.task}}</p>
-                                            <b-container class="bv-example-row">
-                                                <b-row class="text-center">
-                                                    <b-col><b-button class="btnDROP" @click="doneTask(task_on.id)" size="sm" variant="success">IT IS DONE</b-button></b-col>
-                                                    <b-col><b-button class="btnDOIT" @click="editTask(task_on.id, 'doit')" size="sm" variant="success">INTO DOIT</b-button></b-col>
-                                                    <b-col><b-button class="btnDELEGATE" @click="editTask(task_on.id, 'delegate')" size="sm" variant="success">INTO DELEGATE</b-button></b-col>
-                                                    <b-col><b-button class="btnSCHEDULE" @click="editTask(task_on.id, 'schedule')" size="sm" variant="success">INTO SCHEDULE</b-button></b-col>
-                                                </b-row>
-                                            </b-container>
-                                        </b-card>
-                                </b-card-body>
+                            <transition-group name="zoom">
+                            <b-card-body v-for="task_on in tasks_on.drop" :key="task_on.id">
+                                <b-card :title="task_on.created_at" class="mb-2">
+                                    <p class="card-text"> {{task_on.task}}</p>
+                                    <b-container class="bv-example-row">
+                                        <b-row class="text-center">
+                                            <b-col>
+                                                <b-button class="btnDROP" @click="doneTask(task_on.id)" size="sm"
+                                                          variant="success">IT IS DONE</b-button>
+                                            </b-col>
+                                            <b-col>
+                                                <b-button class="btnDOIT" @click="editTask(task_on.id, 'doit')"
+                                                          size="sm" variant="success">INTO DOIT</b-button>
+                                            </b-col>
+                                            <b-col>
+                                                <b-button class="btnDELEGATE" @click="editTask(task_on.id, 'delegate')"
+                                                          size="sm" variant="success">INTO DELEGATE</b-button>
+                                            </b-col>
+                                            <b-col>
+                                                <b-button class="btnSCHEDULE" @click="editTask(task_on.id, 'schedule')"
+                                                          size="sm" variant="success">INTO SCHEDULE</b-button>
+                                            </b-col>
+                                        </b-row>
+                                    </b-container>
+                                </b-card>
+                            </b-card-body>
+                            </transition-group>
                         </b-collapse>
                     </b-card>
                 </div>
@@ -100,6 +173,7 @@
 <script>
 import Navbar from "./Navbar";
 import Addtask from "./AddTask";
+import Chart from "./Chart";
 import { getTasksUrl } from "../../config";
 import { getToken } from "../../config";
 import { mapState } from "vuex";
@@ -113,7 +187,8 @@ export default {
   },
   components: {
     Navbar,
-    Addtask
+    Addtask,
+    Chart
   },
   created() {
     this.getTasks();
@@ -127,6 +202,7 @@ export default {
         .then(response => {
           if (response.status === 200 && response.data.success) {
             this.$store.dispatch("setTasksObject", response.data.success.on);
+            this.fillDataPie(response.data.success.on);
           }
         });
     },
@@ -147,9 +223,8 @@ export default {
           }
         })
         .then(response => {
-            console.log(response)
           if (response.status === 200) {
-            if (response.data.success === 'updated') {
+            if (response.data.success === "updated") {
               this.getTasks();
             }
           }
@@ -158,7 +233,6 @@ export default {
 
     editTask(id, category) {
       const postData = this.definePostData(category);
-      console.log(postData);
 
       axios
         .put(getTasksUrl + "/" + id, postData, {
@@ -170,11 +244,10 @@ export default {
         .then(response => {
           if (response.status === 200 && response.data) {
             if (response.data.errors) {
-              console.log(response.data);
             }
             if (response.data.success) {
-              console.log(response.data.success);
               this.$store.dispatch("setTasksObject", response.data.success.on);
+              this.fillDataPie(response.data.success.on);
             }
           }
         });
@@ -208,8 +281,29 @@ export default {
           importance: 0
         });
       }
+    },
+
+    fillDataPie(tasks) {
+      const tasksArr = JSON.parse(JSON.stringify(tasks));
+      var datacollection = {
+        labels: ["DOIT", "SCHEDULE", "DELEGATE", "DROP"],
+        datasets: [
+          {
+            label: "LABEL",
+            backgroundColor: ["#663399", "#9acd32", "#2e8b57", "#ffffe0"],
+            data: [
+              tasksArr.doit.length,
+              tasksArr.schedule.length,
+              tasksArr.delegate.length,
+              tasksArr.drop.length
+            ]
+          }
+        ]
+      };
+      this.$store.dispatch("setPieObject", datacollection);
     }
   },
+
   computed: {
     ...mapState({
       tasks_on: state => state.tasks.on
@@ -252,7 +346,7 @@ export default {
 }
 
 .card-body {
-  padding: 5px;
+  padding: 4px;
   margin-top: 0px;
   margin-bottom: 0px;
 }

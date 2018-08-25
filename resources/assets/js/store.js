@@ -13,6 +13,9 @@ export const store = new Vuex.Store({
         tasks: {
             done: { tasksDefault },
             on: { tasksDefault }
+        },
+        charts: {
+            pie: {}
         }
     },
     mutations: {
@@ -25,6 +28,9 @@ export const store = new Vuex.Store({
         SET_ARCHIVE(state, taskObj) {
             state.tasks.done = taskObj;
         },
+        SET_PIE(state, chartObj) {
+            state.charts.pie = chartObj;
+        }
     },
     actions: {
         setUserObject: ({ commit }, userObj) => {
@@ -35,14 +41,9 @@ export const store = new Vuex.Store({
         },
         setArchiveObject: ({ commit }, tasksObj) => {
             commit("SET_ARCHIVE", tasksObj);
-        }
-    },
-    getters: {
-        getUser: state => {
-            return state.authUser;
         },
-        getTasks: state => {
-            return state.tasks;
+        setPieObject: ({ commit }, PieObj) => {
+            commit("SET_PIE", PieObj);
         }
     }
 });

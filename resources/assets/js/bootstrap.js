@@ -1,6 +1,7 @@
 
 window._ = require('lodash');
 window.Popper = require('popper.js').default;
+require('vue2-animate/dist/vue2-animate.min.css');
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -10,6 +11,7 @@ window.Popper = require('popper.js').default;
 
 try {
     window.$ = window.jQuery = require('jquery');
+
 
     require('bootstrap');
 } catch (e) {}

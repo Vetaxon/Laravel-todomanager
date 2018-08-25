@@ -1,5 +1,6 @@
 <template>
     <div>
+        <navbar></navbar>
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-6 mt-5">
@@ -22,8 +23,9 @@
                                 </b-form-group>
 
                                 <b-button @click="onSubmit" variant="primary">Send new password</b-button>
-                                <b-button type="reset" @click="onReset" variant="danger">Reset</b-button>
-                                <b-button class="pull-right" type="success" variant="success" :to="{ name: 'login' }">Login</b-button>
+                                <b-button class="pull-right" type="success" variant="success" :to="{ name: 'login' }">
+                                    Login
+                                </b-button>
                             </b-form>
                         </div>
                     </div>
@@ -35,6 +37,7 @@
 
 <script>
 import { getForgotUrl } from "./../../config";
+import Navbar from "./Navbar";
 
 export default {
   data() {
@@ -45,6 +48,9 @@ export default {
       errors: [],
       changeSendEmail: false
     };
+  },
+  components: {
+    Navbar
   },
   methods: {
     onSubmit() {
@@ -65,13 +71,27 @@ export default {
               this.changeSendEmail = true;
           }
         });
-    },
-    onReset() {
-      this.form.email = "";
-      this.errors = [];
-      this.changeSendEmail = false;
     }
   }
 };
 </script>
+
+<style scoped>
+.card-header {
+  background-color: rgb(137, 71, 184);
+  color: white;
+  font-size: 20px;
+  font-weight: 700px;
+}
+
+.card,
+.card-default {
+  border-color: rgb(137, 71, 184);
+  border-width: 5px;
+}
+
+.card-body {
+  font-size: 16px;
+}
+</style>
 

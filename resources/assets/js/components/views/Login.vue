@@ -1,5 +1,6 @@
 <template>
     <div>
+        <navbar></navbar>
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-6 mt-5">
@@ -16,7 +17,9 @@
                                                   required
                                                   placeholder="Enter email">
                                     </b-form-input>
-                                    <span v-if="errors.email" style="color:red; font-size:small">{{ errors.email.join() }}</span>
+                                    <transition name="fade">
+                                        <span v-if="errors.email" style="color:red; font-size:small">{{ errors.email.join() }}</span>
+                                    </transition>
                                 </b-form-group>
                                 <b-form-group id="pass_lab"
                                               label="Your Password:"
@@ -27,14 +30,23 @@
                                                   required
                                                   placeholder="Enter password">
                                     </b-form-input>
+                                    <transition name="fade">
                                     <span v-if="errors.password" style="color:red; font-size:small">{{ errors.password.join() }}</span>
+                                    </transition>
                                 </b-form-group>
 
                                 <b-button @click="onSubmit" variant="primary">Login</b-button>
                                 <b-button type="reset" @click="onReset" variant="danger">Reset</b-button>
-                                <i><b-link :to="{ name: 'forgot' }" style="color:indigo;  margin-left: 5px;">  Forgot Password?</b-link></i>
-                                <b-button class="pull-right" type="success" variant="success" :to="{ name: 'register' }">Register</b-button>
+                                <b-button class="pull-right" type="success" variant="success"
+                                          :to="{ name: 'register' }">Register
+                                </b-button>
                             </b-form>
+                            <br>
+                            <i>
+                                <b-link :to="{ name: 'forgot' }" style="color:indigo;  margin-top: 10px;"> Forgot
+                                    Password?
+                                </b-link>
+                            </i>
                         </div>
                     </div>
                 </div>
@@ -45,6 +57,7 @@
 
 <script>
 import { loginUrl } from "./../../config";
+import Navbar from "./Navbar";
 
 export default {
   data() {
@@ -55,6 +68,9 @@ export default {
       },
       errors: []
     };
+  },
+  components: {
+    Navbar
   },
   methods: {
     onSubmit() {
@@ -71,12 +87,14 @@ export default {
           if (response.status === 200) {
             if (response.data.errors) {
               this.errors = response.data.errors;
+              setInterval(() => (this.errors = []), 8000)
             }
             if (response.data.success) {
               window.localStorage.setItem(
                 "access_token",
                 JSON.stringify(response.data.success.access_token)
               );
+              this.onReset();
               this.$router.push({ name: "dashboard" });
             }
           }
@@ -90,4 +108,24 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.card-header {
+  background-color: rgb(137, 71, 184);
+  color: white;
+  font-size: 20px;
+  font-weight: 700px;
+}
+
+.card,
+.card-default {
+  border-color: rgb(137, 71, 184);
+  border-width: 5px;
+}
+
+.card-body {
+  font-size: 16px;
+}
+</style>
+
 

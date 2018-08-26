@@ -1,4 +1,3 @@
-
 import Vue from "vue";
 import VueRouter from "vue-router";
 import { store } from "./store";
@@ -74,7 +73,11 @@ router.beforeEach((to, from, next) => {
                 })
                 .then(data => {
                     if (data) {
-                        let user = { name: data.name, email: data.email };
+                        let user = {
+                            name: data.name,
+                            email: data.email,
+                            id: data.id
+                        };
                         store.dispatch("setUserObject", user);
                         next();
                     }

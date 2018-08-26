@@ -1,7 +1,6 @@
-
-window._ = require('lodash');
-window.Popper = require('popper.js').default;
-require('vue2-animate/dist/vue2-animate.min.css');
+window._ = require("lodash");
+window.Popper = require("popper.js").default;
+require("vue2-animate/dist/vue2-animate.min.css");
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -10,10 +9,9 @@ require('vue2-animate/dist/vue2-animate.min.css');
  */
 
 try {
-    window.$ = window.jQuery = require('jquery');
+    window.$ = window.jQuery = require("jquery");
 
-
-    require('bootstrap');
+    require("bootstrap");
 } catch (e) {}
 
 /**
@@ -22,9 +20,9 @@ try {
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-window.axios = require('axios');
+window.axios = require("axios");
 
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
 /**
  * Next we will register the CSRF Token as a common header with Axios so that
@@ -35,9 +33,11 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 let token = document.head.querySelector('meta[name="csrf-token"]');
 
 if (token) {
-    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+    window.axios.defaults.headers.common["X-CSRF-TOKEN"] = token.content;
 } else {
-    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+    console.error(
+        "CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token"
+    );
 }
 
 /**
@@ -46,7 +46,21 @@ if (token) {
  * allows your team to easily build robust real-time web applications.
  */
 
-// import Echo from 'laravel-echo'
+import Echo from "laravel-echo";
+
+window.io = require("socket.io-client");
+
+window.Echo = new Echo({
+    broadcaster: "socket.io",
+    host: window.location.hostname + ":6001",
+    auth: {
+        headers: {
+            Authorization:
+                "Bearer " +
+                JSON.parse(window.localStorage.getItem("access_token"))
+        }
+    }
+});
 
 // window.Pusher = require('pusher-js');
 

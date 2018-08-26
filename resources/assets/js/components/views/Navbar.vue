@@ -2,7 +2,7 @@
   <div>
     <b-navbar toggleable="md" type="dark" variant="info" style="background-color:indigo !important">
       <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
-      <b-navbar-brand :to="{ path: '/' }" v-if="authUser.name">ToDoManager</b-navbar-brand>
+      <b-navbar-brand v-if="authUser.name" :to="{ path: '/' }">ToDoManager</b-navbar-brand>
       <b-navbar-brand v-if="!authUser.name">ToDoManager</b-navbar-brand>
       <b-collapse is-nav id="nav_collapse" v-if="authUser.name">
         <b-navbar-nav>
@@ -25,7 +25,6 @@
 
 <script>
 import { mapState } from "vuex";
-import { getTasksUrl } from "../../config";
 import { getToken } from "../../config";
 import { userDefault } from "../../config";
 import { tasksDefault } from "../../config";
@@ -39,13 +38,12 @@ export default {
 
   methods: {
     onSignout() {
-      window.localStorage.removeItem("access_token");
-      let user = { name: "", email: "" };
       this.$store.dispatch("setUserObject", userDefault);
       this.$store.dispatch("setTasksObject", {
         done: { tasksDefault },
         on: { tasksDefault }
       });
+      window.localStorage.removeItem("access_token");
       this.$router.push({ path: "/login" });
     }
   },
@@ -59,19 +57,19 @@ export default {
 </script>
 
 <style scoped>
-.dropdown-menu{
-    background-color: #9f33b9;
-    color:white;
-    border-color: #9f33b9;
+.dropdown-menu {
+  background-color: #9f33b9;
+  color: white;
+  border-color: #9f33b9;
 }
 
-.dropdown-item{
-    color:indigo;
-    border-color: #9f33b9
-
+.dropdown-item {
+  color: indigo;
+  border-color: indigo;
 }
+
 a {
-    color:rgb(197, 143, 229);
+  color: rgb(197, 143, 229);
 }
 </style>
 

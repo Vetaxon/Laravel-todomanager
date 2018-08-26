@@ -13,10 +13,11 @@
 
 use Illuminate\Support\Facades\Route;
 
+
+
 //Route::get('/{view?}', 'HomeController@index')->where('view', '(.*)')->name('horizon.index');
 //Route::get('/mail', 'API\MailingController@daily');
 //Auth::routes();
-
 
  Route::get('/{any}', function (){
      return view('welcome');

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use App\Events\Message;
 
 
 class TaskController extends Controller
@@ -40,6 +41,8 @@ class TaskController extends Controller
 
         User::findOrFail(Auth::id())->tasks()->create($input);
 
+        Message::dispatch(['message' => 'Well done! New tasks, new cares!', 'room_id' => Auth::id()]);
+
         return $this->index();
     }
 
@@ -70,6 +73,12 @@ class TaskController extends Controller
         if ($validator->fails())
             return response()->json(['errors' => $validator->errors()]);
 
+        if($request['status'] === 'done')
+            Message::dispatch(['message' => 'Congratulations, minus one task!', 'room_id' => Auth::id()]);
+
+        if($request['status'] === 'on')
+            Message::dispatch(['message' => 'In such way a task rate will only be increasing', 'room_id' => Auth::id()]);
+
         $task = User::findOrFail(Auth::id())->tasks()->findOrFail($id)->update($request);
 
         if ($task)
@@ -78,6 +87,8 @@ class TaskController extends Controller
 
     protected function updateTaskValue($request, $id)
     {
+        Message::dispatch(['message' => 'You have changed your mind?', 'room_id' => Auth::id()]);
+
         $validator = Validator::make($request, [
             'importance' => 'required|integer|max:1',
             'urgency' => 'required|integer|max:1',
@@ -96,6 +107,8 @@ class TaskController extends Controller
     public function destroy($id)
     {
         User::findOrFail(Auth::id())->tasks()->findOrFail($id)->delete();
+
+        Message::dispatch(['message' => 'Well, finally, the end of suffering!', 'room_id' => Auth::id()]);
 
         return response()->json(['success' => 'deleted']);
     }

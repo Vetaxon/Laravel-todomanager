@@ -1,9 +1,10 @@
 <template>
     <div>
         <navbar></navbar>
+        <messages :title="messageTitle"></messages>
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-md-6 mt-5">
+                <div class="col-md-6 mt-4">
                     <div class="card card-default ">
                         <div class="card-header">Register</div>
                         <div class="card-body">
@@ -22,7 +23,7 @@
                                                   placeholder="Enter email">
                                     </b-form-input>
                                     <transition name="fade">
-                                    <span v-if="errors.email" style="color:red; font-size:small">{{ errors.email.join() }}</span>
+                                        <span v-if="errors.email" style="color:red; font-size:small">{{ errors.email.join() }}</span>
                                     </transition>
                                 </b-form-group>
                                 <b-form-group id="pass_lab" label="Your Password:" label-for="password">
@@ -30,7 +31,7 @@
                                                   placeholder="Enter password">
                                     </b-form-input>
                                     <transition name="fade">
-                                    <span v-if="errors.password" style="color:red; font-size:small">{{ errors.password.join() }}</span>
+                                        <span v-if="errors.password" style="color:red; font-size:small">{{ errors.password.join() }}</span>
                                     </transition>
                                 </b-form-group>
                                 <b-form-group id="pass_conf_lab" label="Confirm your Password:"
@@ -40,10 +41,9 @@
                                                   placeholder="Enter password">
                                     </b-form-input>
                                     <transition name="fade">
-                                    <span v-if="errors.password_confirmation" style="color:red; font-size:small">{{ errors.password_confirmation.join() }}</span>
+                                        <span v-if="errors.password_confirmation" style="color:red; font-size:small">{{ errors.password_confirmation.join() }}</span>
                                     </transition>
                                 </b-form-group>
-
                                 <b-button @click="onSubmit" variant="primary">Register</b-button>
                                 <b-button type="reset" @click="onReset" variant="danger">Reset</b-button>
                                 <b-button class="pull-right" type="success" variant="success" :to="{ name: 'login' }">
@@ -61,22 +61,28 @@
 <script>
 import { getRegisterUrl } from "./../../config";
 import Navbar from "./Navbar";
+import Messages from "./Messages";
 
 export default {
   data() {
     return {
       form: {
-        name: "Victor",
-        email: "ivanovv1983@mail.ru",
-        password: "111111",
-        password_confirmation: "111111"
+        name: "",
+        email: "",
+        password: "",
+        password_confirmation: ""
       },
-      errors: []
+      errors: [],
+      messageTitle:
+        "Welcome to ToDoManager! If your are already registered, please click LOGIN!"
     };
   },
+
   components: {
-    Navbar
+    Navbar,
+    Messages
   },
+
   methods: {
     onSubmit() {
       const postData = JSON.stringify({
@@ -94,7 +100,7 @@ export default {
           if (response.status === 200) {
             if (response.data.errors) {
               this.errors = response.data.errors;
-              setInterval(() => (this.errors = []), 8000)
+              setInterval(() => (this.errors = []), 8000);
             }
             if (response.data.success) {
               window.localStorage.setItem(
@@ -107,6 +113,7 @@ export default {
           }
         });
     },
+
     onReset() {
       this.form.email = "";
       this.form.name = "";
@@ -120,7 +127,7 @@ export default {
 
 <style scoped>
 .card-header {
-  background-color: rgb(137, 71, 184);
+  background-color: rgb(118, 30, 180);
   color: white;
   font-size: 20px;
   font-weight: 700px;
@@ -128,7 +135,7 @@ export default {
 
 .card,
 .card-default {
-  border-color: rgb(137, 71, 184);
+  border-color: rgb(118, 30, 180);
   border-width: 5px;
 }
 

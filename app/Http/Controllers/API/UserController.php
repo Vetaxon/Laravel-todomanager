@@ -2,17 +2,21 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Jobs\SendNewPassEmail;
 use App\User;
+use App\Events\Message;
 use Illuminate\Http\Request;
+use App\Jobs\SendNewPassEmail;
 use App\Jobs\SendWelcomeMessage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Auth\ThrottlesLogins;
 
 class UserController extends Controller
 {
+    use ThrottlesLogins;
+
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -27,7 +31,6 @@ class UserController extends Controller
 
         if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
             $user = Auth::user();
-
             $success['access_token'] = $user->createToken('')->accessToken;
             $success['user'] = [
                 'name' => $user->name,
@@ -128,8 +131,6 @@ class UserController extends Controller
 
     protected function updateDaily($request)
     {
-
-        
         $validator = Validator::make($request, [
             'daily' => 'required|in:0,1',
         ]);
@@ -137,6 +138,12 @@ class UserController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()]);
         }
+
+        if($request['daily'] == '1')
+            Message::dispatch(['message' => 'Now, you will receive a mailing list of all your current tasks every day!', 'room_id' => Auth::id()]);
+
+        if($request['daily'] == '0')
+            Message::dispatch(['message' => 'That is your choice!', 'room_id' => Auth::id()]);
 
         $user = User::findOrFail(Auth::id())->update($request);
 

@@ -1,10 +1,10 @@
 <template>
     <div>
-        <div class="container-fluid mt-5">
+        <div class="container-fluid mt-3">
             <div class="row justify-content-center">
                 <div class="col-md-8 mt-1">
-                    <b-form-textarea id="textarea1" v-model="task" placeholder="Enter new task description..."
-                                     :rows="4" :max-rows="6"></b-form-textarea>
+                    <b-form-textarea id="textarea1" v-model="task" placeholder="Enter a new task description..."
+                                     :rows="3" :max-rows="6"></b-form-textarea>
                     <span class="ml-2" v-if="errors.task"
                           style="color:red; font-size:small">{{ errors.task.join() }}</span>
                 </div>
@@ -31,13 +31,13 @@ import { getToken } from "../../config";
 export default {
   data() {
     return {
-      task:
-        "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inv. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inv.",
+      task: "",
       urgency: "0",
       importance: "0",
       errors: []
     };
   },
+
   methods: {
     addTask() {
       this.errors = [];
@@ -63,6 +63,7 @@ export default {
             if (response.data.success) {
               (this.urgency = "0"), (this.importance = "0");
               this.$store.dispatch("setTasksObject", response.data.success.on);
+              this.task = ""
               this.fillDataPie(response.data.success.on);
             }
           }
@@ -70,7 +71,6 @@ export default {
     },
 
     fillDataPie(tasks) {
-
       const tasksArr = JSON.parse(JSON.stringify(tasks));
       var datacollection = {
         labels: ["DOIT", "SCHEDULE", "DELEGATE", "DROP"],
@@ -109,9 +109,9 @@ export default {
   box-shadow: 0 0 0 0.2rem rgba(223, 211, 235, 0.527);
 }
 
-body{
-      text-align: center;
-  }
+body {
+  text-align: center;
+}
 </style>
 
 

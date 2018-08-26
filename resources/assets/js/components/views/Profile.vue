@@ -1,9 +1,10 @@
 <template>
     <div>
         <navbar></navbar>
+        <messages :title="messageTitle"></messages>
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-md-8 mt-5">
+                <div class="col-md-8 mt-3">
                     <div class="card card-default ">
                         <div class="card-header">Profile</div>
                         <div class="card-body">
@@ -18,10 +19,10 @@
                                                 </b-input-group-append>
                                             </b-input-group>
                                             <transition name="fade">
-                                            <span v-if="errors.name" style="color:red; font-size:small">{{ errors.name.join() }}</span>
+                                                <span v-if="errors.name" style="color:red; font-size:small">{{ errors.name.join() }}</span>
                                             </transition>
                                             <transition name="fade">
-                                            <span v-if="name_changed" style="color:green; font-size:small">Your name has been updated</span>
+                                                <span v-if="name_changed" style="color:green; font-size:small">Your name has been updated</span>
                                             </transition>
                                         </b-row>
                                     </b-container>
@@ -36,10 +37,10 @@
                                                 </b-input-group-append>
                                             </b-input-group>
                                             <transition name="fade">
-                                            <span v-if="errors.email" style="color:red; font-size:small">{{ errors.email.join() }}</span>
+                                                <span v-if="errors.email" style="color:red; font-size:small">{{ errors.email.join() }}</span>
                                             </transition>
                                             <transition name="fade">
-                                            <span v-if="email_changed" style="color:green; font-size:small">Your email has been updated</span>
+                                                <span v-if="email_changed" style="color:green; font-size:small">Your email has been updated</span>
                                             </transition>
                                         </b-row>
                                     </b-container>
@@ -48,12 +49,18 @@
                                 <b-list-group-item>
                                     <b-container class="bv-example-row">
                                         <b-row>
-                                            <transition v-if="(user.subscribe)" name="fade">
-                                            <b-link v-if="user.subscribe == 0" @click="updateDaily(1)" style="color: indigo">Subscribe to daily mailing tasks</b-link>
+                                            <transition name="fade">
+                                                <b-link v-if="user.subscribe == 0 && user.subscribe" @click="updateDaily(1)"
+                                                        style="color: indigo">Subscribe to daily mailing tasks
+                                                </b-link>
                                             </transition>
                                         </b-row>
                                         <b-row>
-                                            <b-link v-if="user.subscribe == 1" @click="updateDaily(0)" style="color: red">Unsubscribe from daily mailing of tasks</b-link>
+                                            <transition name="fade">
+                                            <b-link v-if="user.subscribe == 1 && user.subscribe" @click="updateDaily(0)"
+                                                    style="color: red">Unsubscribe from daily mailing of tasks
+                                            </b-link>
+                                            </transition>
                                         </b-row>
                                     </b-container>
                                 </b-list-group-item>
@@ -75,7 +82,7 @@
                                                   placeholder="Enter old password">
                                     </b-form-input>
                                     <transition name="fade">
-                                    <span v-if="errors.password_old" style="color:red; font-size:small">{{ errors.password_old.join() }}</span>
+                                        <span v-if="errors.password_old" style="color:red; font-size:small">{{ errors.password_old.join() }}</span>
                                     </transition>
                                 </b-form-group>
 
@@ -89,7 +96,7 @@
                                                   placeholder="Enter new password">
                                     </b-form-input>
                                     <transition name="fade">
-                                    <span v-if="errors.password" style="color:red; font-size:small">{{ errors.password.join() }}</span>
+                                        <span v-if="errors.password" style="color:red; font-size:small">{{ errors.password.join() }}</span>
                                     </transition>
                                 </b-form-group>
 
@@ -103,7 +110,7 @@
                                                   placeholder="Confirn new password">
                                     </b-form-input>
                                     <transition name="fade">
-                                    <span v-if="errors.password_confirmation" style="color:red; font-size:small">{{ errors.password_confirmation.join() }}</span>
+                                        <span v-if="errors.password_confirmation" style="color:red; font-size:small">{{ errors.password_confirmation.join() }}</span>
                                     </transition>
                                 </b-form-group>
 
@@ -111,9 +118,9 @@
                                 <b-button type="reset" @click="onReset" variant="danger">Reset</b-button>
                             </b-form>
                             <transition name="fade">
-                            <div v-if="password_changed" class="alert alert-success mt-3" role="alert">
-                                {{password_changed}}
-                            </div>
+                                <div v-if="password_changed" class="alert alert-success mt-3" role="alert">
+                                    {{password_changed}}
+                                </div>
                             </transition>
                         </div>
                     </div>
@@ -129,11 +136,14 @@ import { getUserUrl } from "./../../config";
 import Navbar from "./Navbar";
 import { getToken } from "../../config";
 import { updateUser } from "../../config";
+import Messages from "./Messages";
 
 export default {
   components: {
-    Navbar
+    Navbar,
+    Messages
   },
+
   data() {
     return {
       user: {
@@ -149,9 +159,12 @@ export default {
       },
       password_changed: "",
       name_changed: false,
-      email_changed: false
+      email_changed: false,
+      messageTitle:
+        "Here is your profile. You can change your account, password and subscribe to the daily mailing of your tasks!"
     };
   },
+
   methods: {
     getUser() {
       axios
@@ -184,7 +197,10 @@ export default {
         .then(response => {
           if (response.status === 200) {
             if (response.data.success) {
-              this.user.subscribe = response.data.success.daily;
+              this.user.subscribe = '';
+              setTimeout(() => {
+                this.user.subscribe = response.data.success.daily;
+              }, 1000);
             }
           }
         });
@@ -221,6 +237,7 @@ export default {
           }
         });
     },
+
     editEmail() {
       this.errors = [];
       const postData = JSON.stringify({
@@ -252,6 +269,7 @@ export default {
           }
         });
     },
+
     editPassword() {
       this.errors = [];
       this.password_changed = "";
@@ -287,6 +305,7 @@ export default {
           }
         });
     },
+
     onReset() {
       this.form.password_old = "";
       this.form.password = "";

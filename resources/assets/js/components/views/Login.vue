@@ -1,9 +1,10 @@
 <template>
     <div>
         <navbar></navbar>
+        <messages :title="messageTitle"></messages>
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-md-6 mt-5">
+                <div class="col-md-6 mt-4">
                     <div class="card card-default ">
                         <div class="card-header">Login</div>
                         <div class="card-body">
@@ -31,7 +32,7 @@
                                                   placeholder="Enter password">
                                     </b-form-input>
                                     <transition name="fade">
-                                    <span v-if="errors.password" style="color:red; font-size:small">{{ errors.password.join() }}</span>
+                                        <span v-if="errors.password" style="color:red; font-size:small">{{ errors.password.join() }}</span>
                                     </transition>
                                 </b-form-group>
 
@@ -58,6 +59,7 @@
 <script>
 import { loginUrl } from "./../../config";
 import Navbar from "./Navbar";
+import Messages from "./Messages";
 
 export default {
   data() {
@@ -66,12 +68,17 @@ export default {
         email: "vitalii.ivanov1983@gmail.com",
         password: "111111"
       },
-      errors: []
+      errors: [],
+      messageTitle:
+        "Welcome to ToDoManager! If your are not registered yet, please click REGISTER! But, if you are registered and have dorgot a password, got to Forgot Password!"
     };
   },
+
   components: {
-    Navbar
+    Navbar,
+    Messages
   },
+
   methods: {
     onSubmit() {
       const postData = JSON.stringify({
@@ -87,7 +94,7 @@ export default {
           if (response.status === 200) {
             if (response.data.errors) {
               this.errors = response.data.errors;
-              setInterval(() => (this.errors = []), 8000)
+              setInterval(() => (this.errors = []), 8000);
             }
             if (response.data.success) {
               window.localStorage.setItem(
@@ -100,6 +107,7 @@ export default {
           }
         });
     },
+
     onReset() {
       this.form.email = "";
       this.form.password = "";
@@ -111,7 +119,7 @@ export default {
 
 <style scoped>
 .card-header {
-  background-color: rgb(137, 71, 184);
+  background-color: rgb(118, 30, 180);
   color: white;
   font-size: 20px;
   font-weight: 700px;
@@ -119,7 +127,7 @@ export default {
 
 .card,
 .card-default {
-  border-color: rgb(137, 71, 184);
+  border-color: rgb(118, 30, 180);
   border-width: 5px;
 }
 

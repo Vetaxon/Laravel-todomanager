@@ -1,7 +1,7 @@
 <template>
-    <div class="container">
-        <div class=" small">
-            <pie-chart :chart-data="datacollection"></pie-chart>
+    <div class="container justify-content-center">
+        <div class="small">
+            <pie-chart :chart-data="datacollection" ></pie-chart>
         </div>
     </div>
 </template>

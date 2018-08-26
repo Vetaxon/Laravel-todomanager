@@ -1,9 +1,10 @@
 <template>
     <div>
         <navbar></navbar>
+        <messages :title="messageTitle"></messages>
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-md-6 mt-5">
+                <div class="col-md-6 mt-4">
                     <div class="card card-default">
                         <div class="card-header">Forgot Password</div>
 
@@ -38,20 +39,26 @@
 <script>
 import { getForgotUrl } from "./../../config";
 import Navbar from "./Navbar";
+import Messages from "./Messages";
 
 export default {
   data() {
     return {
       form: {
-        email: "ivanovv1983@mail.ru"
+        email: ""
       },
       errors: [],
-      changeSendEmail: false
+      changeSendEmail: false,
+      messageTitle:
+        "Oh! Forgot password. Do not worry about, just input your email and receive new password!"
     };
   },
+
   components: {
-    Navbar
+    Navbar,
+    Messages
   },
+
   methods: {
     onSubmit() {
       const postData = JSON.stringify({
@@ -78,7 +85,7 @@ export default {
 
 <style scoped>
 .card-header {
-  background-color: rgb(137, 71, 184);
+  background-color: rgb(118, 30, 180);
   color: white;
   font-size: 20px;
   font-weight: 700px;
@@ -86,7 +93,7 @@ export default {
 
 .card,
 .card-default {
-  border-color: rgb(137, 71, 184);
+  border-color: rgb(118, 30, 180);
   border-width: 5px;
 }
 

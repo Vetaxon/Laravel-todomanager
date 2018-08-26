@@ -2,11 +2,17 @@ import Vue from "vue";
 import Vuex from "vuex";
 import { userDefault } from "./config";
 import { tasksDefault } from "./config";
+import createMutationsSharer from "vuex-shared-mutations";
 
 Vue.use(Vuex);
 
 export const store = new Vuex.Store({
-    strict: process.env.NODE_ENV !== "production",
+    // strict: process.env.NODE_ENV !== "production",
+    plugins: [
+        createMutationsSharer({
+            predicate: ["SET_AUTH_USER", "SET_TASKS", "SET_ARCHIVE", "SET_PIE"]
+        })
+    ],
 
     state: {
         authUser: { userDefault },

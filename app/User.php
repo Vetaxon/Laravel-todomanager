@@ -33,8 +33,4 @@ class User extends Authenticatable
         return $this->hasMany('App\Task');
     }
 
-    public function subscribes()
-    {
-        return $this->hasMany('App\Subscribe');
-    }
 }

@@ -204,7 +204,7 @@ export default {
 
   created() {
     this.getTasks();
-  },
+  },  
 
   methods: {
     getTasks() {

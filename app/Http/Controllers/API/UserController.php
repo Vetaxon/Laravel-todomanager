@@ -15,7 +15,6 @@ use Illuminate\Foundation\Auth\ThrottlesLogins;
 
 class UserController extends Controller
 {
-    use ThrottlesLogins;
 
     public function login(Request $request)
     {
@@ -61,9 +60,7 @@ class UserController extends Controller
 
         $input['password'] = bcrypt($input['password']);
 
-        $user_create = User::create($input)->subscribes()->create(['daily' => '0']);
-
-        $user = User::find($user_create->user_id);
+        $user = User::create($input);
 
         $success['access_token'] = $user->createToken('')->accessToken;
         $success['user'] = [

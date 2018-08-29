@@ -1,4 +1,4 @@
-export const apiDomain = "";
+export const apiDomain = "http://178.238.230.14";
 export const loginUrl = apiDomain + "/api/login";
 export const getUserUrl = apiDomain + "/api/user";
 export const getRegisterUrl = apiDomain + "/api/register";

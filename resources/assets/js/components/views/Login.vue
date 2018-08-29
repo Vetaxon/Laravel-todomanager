@@ -65,8 +65,8 @@ export default {
   data() {
     return {
       form: {
-        email: "vitalii.ivanov1983@gmail.com",
-        password: "111111"
+        email: "",
+        password: ""
       },
       errors: [],
       messageTitle:

@@ -11,9 +11,16 @@
 |
 */
 
-use Illuminate\Support\Facades\Route;
 
+Route::get('/_debugbar/assets/stylesheets', [
+    'as' => 'debugbar-css',
+    'uses' => '\Barryvdh\Debugbar\Controllers\AssetController@css'
+]);
 
+Route::get('/_debugbar/assets/javascript', [
+    'as' => 'debugbar-js',
+    'uses' => '\Barryvdh\Debugbar\Controllers\AssetController@js'
+]);
 
 //Route::get('/{view?}', 'HomeController@index')->where('view', '(.*)')->name('horizon.index');
 //Route::get('/mail', 'API\MailingController@daily');

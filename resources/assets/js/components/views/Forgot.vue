@@ -45,7 +45,7 @@ export default {
   data() {
     return {
       form: {
-        email: "vitalii.ivanov1983@gmail.com"
+        email: ""
       },
       errors: [],
       changeSendEmail: false,
